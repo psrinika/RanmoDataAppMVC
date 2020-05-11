@@ -1,0 +1,56 @@
+﻿@model RanmoDataAppMVC.Models.ProductionReject
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ProductionReject</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductionId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProductionId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RejectReasonId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RejectReasonId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RejectReasonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RejectReasonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NumberOfRejects)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NumberOfRejects)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

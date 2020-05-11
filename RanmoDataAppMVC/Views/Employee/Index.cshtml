@@ -1,0 +1,63 @@
+﻿@model IEnumerable<RanmoDataAppMVC.Models.Employee>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Employee Info</h2>
+
+<p>
+
+    <a href="@Url.Action("AddOrEdit","Employee")" class="btn btn-default"><i class="fa fa-plus btn-info"></i> Create New</a>
+</p>
+<table class="table table-sm table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmpName)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.DateAdded)
+                </th>*@
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EmpName)
+                </td>
+                @*<td>
+                        @Html.DisplayFor(modelItem => item.DateAdded)
+                    </td>*@
+                <td>
+                    <a href="@Url.Action("AddOrEdit","Employee", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
+                    <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@section scripts {
+
+    <script>
+        function Delete(id) {
+            var confirmed = confirm("Are you sure!");
+            if (confirmed) {
+                window.location.href = '@Url.Action("Delete","Employee")/' + id;
+            }
+        }
+    </script>
+}

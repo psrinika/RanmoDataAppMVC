@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RanmoDataAppMVC", "RanmoDataAppMVC\RanmoDataAppMVC.csproj", "{0F27D0F6-DD0F-4379-86C8-6EB62A7BADB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RanmoDB", "..\RanmoDataApp\RanmoDB\RanmoDB.csproj", "{88F67AA5-FD7F-44B5-BEAF-AD1903C471AD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0F27D0F6-DD0F-4379-86C8-6EB62A7BADB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F27D0F6-DD0F-4379-86C8-6EB62A7BADB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F27D0F6-DD0F-4379-86C8-6EB62A7BADB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F27D0F6-DD0F-4379-86C8-6EB62A7BADB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{88F67AA5-FD7F-44B5-BEAF-AD1903C471AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{88F67AA5-FD7F-44B5-BEAF-AD1903C471AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{88F67AA5-FD7F-44B5-BEAF-AD1903C471AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{88F67AA5-FD7F-44B5-BEAF-AD1903C471AD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {411B75FB-FA5C-4AF7-BA67-D635229ABCDF}
+	EndGlobalSection
+EndGlobal

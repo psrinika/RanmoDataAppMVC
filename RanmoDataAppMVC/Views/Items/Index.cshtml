@@ -1,0 +1,136 @@
+﻿@model IEnumerable<RanmoDB.Item>
+
+@{
+    ViewBag.Title = "Ranmo - Item(Plate)";
+}
+
+<table width="100%" class="table-condensed">
+    <tr>
+        <td width="180px">
+            <h1>Item Info</h1>
+        </td>
+        <td align="right"><a href="@Url.Action("Create","Items")" class="btn btn-success" data-toggle="modal"><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Create New</a></td>
+        <td align="right">
+            @using (Html.BeginForm("index", "Items", FormMethod.Get))
+            {
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link  collapsed" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                        aria-expanded="false" aria-controls="collapseOne">
+                                    Filtering and Number of records
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <table class="table table-sm" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td>Item For(leave blank for any)</td>
+                                        <td>item Name Contains (leave blank for any)</td>
+                                        <td>Only Active or Inactive or Any</td>
+                                        <td>Records</td>
+                                        <td>Actions</td>
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.DropDownList("itemForId", (SelectList)ViewBag.ItemForList, "Any")</td>
+                                        <td>@Html.TextBox("itemNameContains")</td>
+                                        <td>
+                                            @Html.DropDownList("activeStatus", new List<SelectListItem>
+                                    {
+                                        new SelectListItem{ Text="Any", Value = "-1", Selected = true },
+                                        new SelectListItem{ Text="Active", Value = "1" },
+                                        new SelectListItem{ Text="Not-Active", Value = "0" }
+                                    })
+                                        </td>
+                                        <td>@Html.TextBox("noOfRecs", "10")</td>
+                                        <td><button type="submit" value=" Submit">Search Items</button></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </td>
+    </tr>
+</table>
+
+<table class="table table-sm table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemFor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullShotWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WithoutRunnerWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CycleTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PerHourTarget)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th width="200px">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemFor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ItemName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FullShotWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WithoutRunnerWeight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CycleTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PerHourTarget)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit","Items", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
+                    <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+
+
+@section scripts {
+
+    <script>
+        function Delete(id) {
+            var confirmed = confirm("Are you sure!");
+            if (confirmed) {
+                window.location.href = '@Url.Action("Delete","Items")/' + id;
+            }
+        }
+    </script>
+
+}
