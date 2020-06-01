@@ -290,7 +290,7 @@ namespace RanmoDataAppMVC.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Timestamp,WorkStartDate,ShiftDN,MachineId,ItemId,EmployeeId,FromTime,MachineCounterFrom,ToTime,MachineCounterTo,TotalDamaged,DownTimeMinutes,DownTimeReason,Notes")] ProductionData productionData)
+        public ActionResult Create([Bind(Include = "Timestamp,WorkStartDate,ShiftDN,MachineId,ItemId,EmployeeId,FromTime,MachineCounterFrom,ToTime,MachineCounterTo,TotalDamaged,DownTimeMinutes,DownTimeReason,Notes")] ProductionData productionData)
         {
             productionData.Timestamp = DateTime.Now;
 
