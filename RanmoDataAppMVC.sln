@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RanmoDataAppMVC", "RanmoDataAppMVC\RanmoDataAppMVC.csproj", "{0F27D0F6-DD0F-4379-86C8-6EB62A7BADB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RanmoDB", "..\RanmoDataApp\RanmoDB\RanmoDB.csproj", "{88F67AA5-FD7F-44B5-BEAF-AD1903C471AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RanmoDB", "RanmoDB\RanmoDB.csproj", "{88F67AA5-FD7F-44B5-BEAF-AD1903C471AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

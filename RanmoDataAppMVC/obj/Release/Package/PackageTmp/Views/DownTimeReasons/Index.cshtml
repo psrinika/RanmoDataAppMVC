@@ -1,0 +1,54 @@
+﻿@model IEnumerable<RanmoDB.DownTimeReason>
+
+@{
+    ViewBag.Title = "Down Time Reasons";
+}
+
+<table width="100%" class="table-condensed">
+    <tr>
+        <td width="380px">
+            <h1>Down Time Reasons</h1>
+        </td>
+        <td align="right"><a href="@Url.Action("Create","DownTimeReasons")" class="btn btn-success" ><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Create New</a></td>
+    </tr>
+</table>
+
+<table class="table table-sm table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                Down Time Reason
+            </th>
+            <th width="200px">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DownTimeReasonName)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit","DownTimeReasons", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
+                    <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+@section scripts {
+
+    <script>
+        function Delete(id) {
+            var confirmed = confirm("Are you sure!");
+            if (confirmed) {
+                window.location.href = '@Url.Action("Delete","DownTimeReasons")/' + id;
+            }
+        }
+    </script>
+}

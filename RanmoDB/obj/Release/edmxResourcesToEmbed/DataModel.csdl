@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="RanSanDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="EmpNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="EmpName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="DateAdded" Type="DateTime" Precision="3" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="FullShotWeight" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="WithoutRunnerWeight" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="CycleTime" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PerHourTarget" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="IsActive" Type="Boolean" Nullable="false" />
+    <Property Name="ItemFor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Machine">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MachineName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityContainer Name="RanSanDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Employees" EntityType="Self.Employee" />
+    <EntitySet Name="Items" EntityType="Self.Item" />
+    <EntitySet Name="Machines" EntityType="Self.Machine" />
+    <EntitySet Name="ProductionDatas" EntityType="RanSanDBModel.ProductionData" />
+    <EntitySet Name="ShiftTimes" EntityType="RanSanDBModel.ShiftTime" />
+    <EntitySet Name="DownTimeReasons" EntityType="RanSanDBModel.DownTimeReason" />
+    <EntitySet Name="ForItems" EntityType="RanSanDBModel.ForItem" />
+    <EntitySet Name="RejectReasons" EntityType="RanSanDBModel.RejectReason" />
+    <EntitySet Name="ProductionRejects" EntityType="RanSanDBModel.ProductionReject" />
+    <EntitySet Name="ProductionDownTimes" EntityType="RanSanDBModel.ProductionDownTime" />
+  </EntityContainer>
+  <EntityType Name="ProductionData">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Timestamp" Type="DateTime" Precision="3" />
+    <Property Name="WorkStartDate" Type="DateTime" Precision="3" />
+    <Property Name="ShiftDN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="MachineId" Type="Int32" />
+    <Property Name="ItemId" Type="Int32" />
+    <Property Name="EmployeeId" Type="Double" />
+    <Property Name="FromTime" Type="Time" Precision="0" />
+    <Property Name="MachineCounterFrom" Type="Int32" />
+    <Property Name="ToTime" Type="Time" Precision="0" />
+    <Property Name="MachineCounterTo" Type="Int32" />
+    <Property Name="TotalDamaged" Type="Int32" />
+    <Property Name="DownTimeMinutes" Type="Int32" />
+    <Property Name="DownTimeReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="ShiftTime">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FromToTime" Type="Time" Precision="0" Nullable="false" />
+  </EntityType>
+  <EntityType Name="DownTimeReason">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DownTimeReasonName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ForItem">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ItemFor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="RejectReason">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RejectReasonName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="ProductionReject">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductionId" Type="Int32" Nullable="false" />
+    <Property Name="RejectReasonId" Type="Int32" Nullable="false" />
+    <Property Name="NumberOfRejects" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProductionDownTime">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductionId" Type="Int32" Nullable="false" />
+    <Property Name="DownTimeReasonId" Type="Int32" Nullable="false" />
+    <Property Name="DownTimeMinutes" Type="Int32" Nullable="false" />
+  </EntityType>
+</Schema>

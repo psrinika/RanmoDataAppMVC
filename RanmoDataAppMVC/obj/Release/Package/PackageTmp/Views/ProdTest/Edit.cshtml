@@ -1,0 +1,288 @@
+﻿@model RanmoDataAppMVC.Models.Production
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Production</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Id, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        @*   @Html.HiddenFor(model => model.Id)*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MachineName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MachineName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MachineName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ItemName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @*<input name="btnSave" type="submit" value="Create" class="btn btn-default" />*@
+                <input class="btn-default" type="button" id="btnSave" value="Save" />
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Rejected", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-6">
+                <form id="NewRejectedReasonForm">
+                    <div class="modal-body">
+                        @*Order Details*@
+                        <h5 style="margin-top:10px;color:#ff6347">Reject records</h5>
+                        <hr />
+                        <div class="form-horizontal">
+                            <input type="hidden" id="OrderId" />
+
+                            <table cellpadding="5" cellspacing="5">
+                                <tr>
+                                    <td width="25%">
+                                        Rejected Reason
+                                    </td>
+                                    <td width="45%">
+                                        <input type="text" id="rejectedReason" name="rejectedReason" placeholder="Reject Reason" class="form-control" />
+                                    </td>
+                                    <td width="18%">
+                                        No of Items
+                                    </td>
+                                    <td width="12%">
+                                        <input type="number" id="quantity" name="quantity" placeholder="No of rejected items" class="form-control" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a id="addToList" class="btn btn-success" data-toggle="modal"><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Add To List</a>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <table id="detailsTable" class="table table-sm table-bordered table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th style="width:60%">Rejected Reason</th>
+                                        <th style="width:30%">No of Items</th>
+                                        <th style="width:10%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.ProductionRejectList)
+                                    {
+                                        <tr>
+                                            <td style="display:none;">
+                                                @item.ProductionId
+                                            </td>
+                                            <td style="display:none;">
+                                                @item.RejectReasonId
+                                            </td>
+                                            <td>
+                                                @item.RejectReasonName
+                                            </td>
+                                            <td>
+                                                @item.NumberOfRejects
+                                            </td>
+                                            <td>
+                                                <a data-itemId="0" href="#" class="deleteItem">Remove</a>
+                                            </td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button id="saveOrder" type="submit" class="btn btn-danger">Save Order</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="SaveAll" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section scripts {
+    <text>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                //function will be called on button click having id btnsave
+                $("#btnSave").click(function () {
+                    $("#Id").val(0);
+                    var Id = 0;
+                    var ProductionId = 402; // $("#FromToTime").val();
+                    var RejectReasonId = 2; // $("#FromToTime").val();
+                    var NumberOfRejects = 4; // $("#FromToTime").val();
+
+                    var formData = JSON.stringify({ Id, ProductionId, RejectReasonId, NumberOfRejects });
+
+                    //   alert(formData);
+
+                    $.ajax(
+                        {
+                            type: "POST", //HTTP POST Method
+                            url: "/RanmoDataAppMVC/ProdTest/ProdRejSave", // Controller/View
+                            data: formData,
+                            contentType: "application/json; charset=utf-8",
+                            // dataType: "json",
+                            async: false,
+                            success: function (data) {
+                                alert("User has been added successfully.");
+
+                            },
+                            error: function (jqXHR, exception) {
+                                alert(exception);
+                            }
+                        });
+
+                });
+            });
+        </script>
+
+        <script>
+
+            //Show Modal.
+            function addNewRejectedReason() {
+                $("#newOrderModal").modal();
+            }
+
+
+            //Add Multiple Order.
+            $("#addToList").click(function (e) {
+                e.preventDefault();
+
+                if ($.trim($("#rejectedReason").val()) == "" || $.trim($("#quantity").val()) == "") return;
+
+                var rejectedReason = $("#rejectedReason").val(),
+                    quantity = $("#quantity").val(),
+                    detailsTableBody = $("#detailsTable tbody");
+
+                var productItem = '<tr><td>' + rejectedReason + '</td><td>' + quantity + '</td><td><a data-itemId="0" href="#" class="deleteItem">Remove</a></td></tr>';
+                detailsTableBody.append(productItem);
+                clearItem();
+            });
+            //After Add A New Order In The List, Clear Clean The Form For Add More Order.
+            function clearItem() {
+                $("#rejectedReason").val('');
+                $("#quantity").val('');
+            }
+            // After Add A New Order In The List, If You Want, You Can Remove It.
+            $(document).on('click', 'a.deleteItem', function (e) {
+                e.preventDefault();
+                var $self = $(this);
+                if ($(this).attr('data-itemId') == "0") {
+                    $(this).parents('tr').css("background-color", "#ff6347").fadeOut(800, function () {
+                        $(this).remove();
+                    });
+                }
+            });
+            //After Click Save Button Pass All Data View To Controller For Save Database
+            function saveOrder(data) {
+                return $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: "/Orders/SaveOrder",
+                    data: data,
+                    success: function (result) {
+                        alert(result);
+                        location.reload();
+                    },
+                    error: function () {
+                        alert("Error!")
+                    }
+                });
+            }
+            //Collect Multiple Order List For Pass To Controller
+            $("#saveOrder").click(function (e) {
+                e.preventDefault();
+
+
+                //var x = $("#MachineCounterFrom").val();
+                //alert(x);
+                //$("#MachineCounterTo").val(532);
+                //var x = $("#MachineCounterFrom").val();
+                //alert(x);
+
+                var rejectReasonArr = [];
+                rejectReasonArr.length = 0;
+
+                $.each($("#detailsTable tbody tr"), function () {
+
+                    //alert($(this).find('td:eq(2)').html());
+                    rejectReasonArr.push({
+                        rejectedReason: $(this).find('td:eq(0)').html(),
+                        quantity: $(this).find('td:eq(1)').html()
+                    });
+                });
+
+
+                var data = JSON.stringify({
+                    name: $("#name").val(),
+                    address: $("#address").val(),
+                    order: rejectReasonArr
+                });
+
+                $.when(saveOrder(data)).then(function (response) {
+                    console.log(response);
+                }).fail(function (err) {
+                    console.log(err);
+                });
+            });
+
+        </script>
+
+
+    </text>
+
+}
+
+

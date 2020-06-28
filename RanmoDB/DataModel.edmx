@@ -1,0 +1,363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RanSanDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DownTimeReason">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DownTimeReasonName" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="EmpNo" Type="varchar" MaxLength="50" />
+          <Property Name="EmpName" Type="varchar" MaxLength="500" Nullable="false" />
+          <Property Name="DateAdded" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ForItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ItemFor" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="ItemFor" Type="varchar" MaxLength="500" />
+          <Property Name="ItemName" Type="varchar" MaxLength="500" />
+          <Property Name="FullShotWeight" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="WithoutRunnerWeight" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CycleTime" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PerHourTarget" Type="decimal" Precision="18" Scale="2" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MachineName" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ProductionData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Timestamp" Type="datetime" />
+          <Property Name="WorkStartDate" Type="datetime" />
+          <Property Name="ShiftDN" Type="nvarchar" MaxLength="255" />
+          <Property Name="MachineId" Type="int" />
+          <Property Name="ItemId" Type="int" />
+          <Property Name="EmployeeId" Type="float" />
+          <Property Name="FromTime" Type="time" Precision="0" />
+          <Property Name="MachineCounterFrom" Type="int" />
+          <Property Name="ToTime" Type="time" Precision="0" />
+          <Property Name="MachineCounterTo" Type="int" />
+          <Property Name="TotalDamaged" Type="int" />
+          <Property Name="DownTimeMinutes" Type="int" />
+          <Property Name="DownTimeReason" Type="nvarchar" MaxLength="255" />
+          <Property Name="Notes" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ProductionDownTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductionId" Type="int" Nullable="false" />
+          <Property Name="DownTimeReasonId" Type="int" Nullable="false" />
+          <Property Name="DownTimeMinutes" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductionReject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductionId" Type="int" Nullable="false" />
+          <Property Name="RejectReasonId" Type="int" Nullable="false" />
+          <Property Name="NumberOfRejects" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RejectReason">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RejectReasonName" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ShiftTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FromToTime" Type="time" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="RanSanDBModelStoreContainer">
+          <EntitySet Name="DownTimeReason" EntityType="Self.DownTimeReason" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ForItem" EntityType="Self.ForItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Item" EntityType="Self.Item" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Machine" EntityType="Self.Machine" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductionData" EntityType="Self.ProductionData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductionDownTime" EntityType="Self.ProductionDownTime" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductionReject" EntityType="Self.ProductionReject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RejectReason" EntityType="Self.RejectReason" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShiftTime" EntityType="Self.ShiftTime" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RanSanDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="EmpNo" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="EmpName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateAdded" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Item">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="FullShotWeight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="WithoutRunnerWeight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CycleTime" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PerHourTarget" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="ItemFor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Machine">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MachineName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityContainer Name="RanSanDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="Machines" EntityType="Self.Machine" />
+          <EntitySet Name="ProductionDatas" EntityType="RanSanDBModel.ProductionData" />
+          <EntitySet Name="ShiftTimes" EntityType="RanSanDBModel.ShiftTime" />
+          <EntitySet Name="DownTimeReasons" EntityType="RanSanDBModel.DownTimeReason" />
+          <EntitySet Name="ForItems" EntityType="RanSanDBModel.ForItem" />
+          <EntitySet Name="RejectReasons" EntityType="RanSanDBModel.RejectReason" />
+          <EntitySet Name="ProductionRejects" EntityType="RanSanDBModel.ProductionReject" />
+          <EntitySet Name="ProductionDownTimes" EntityType="RanSanDBModel.ProductionDownTime" />
+        </EntityContainer>
+        <EntityType Name="ProductionData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Timestamp" Type="DateTime" Precision="3" />
+          <Property Name="WorkStartDate" Type="DateTime" Precision="3" />
+          <Property Name="ShiftDN" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="MachineId" Type="Int32" />
+          <Property Name="ItemId" Type="Int32" />
+          <Property Name="EmployeeId" Type="Double" />
+          <Property Name="FromTime" Type="Time" Precision="0" />
+          <Property Name="MachineCounterFrom" Type="Int32" />
+          <Property Name="ToTime" Type="Time" Precision="0" />
+          <Property Name="MachineCounterTo" Type="Int32" />
+          <Property Name="TotalDamaged" Type="Int32" />
+          <Property Name="DownTimeMinutes" Type="Int32" />
+          <Property Name="DownTimeReason" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ShiftTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FromToTime" Type="Time" Precision="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DownTimeReason">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DownTimeReasonName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ForItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ItemFor" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="RejectReason">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RejectReasonName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="ProductionReject">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductionId" Type="Int32" Nullable="false" />
+          <Property Name="RejectReasonId" Type="Int32" Nullable="false" />
+          <Property Name="NumberOfRejects" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductionDownTime">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductionId" Type="Int32" Nullable="false" />
+          <Property Name="DownTimeReasonId" Type="Int32" Nullable="false" />
+          <Property Name="DownTimeMinutes" Type="Int32" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RanSanDBModelStoreContainer" CdmEntityContainer="RanSanDBEntities">
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="RanSanDBModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="EmpNo" ColumnName="EmpNo" />
+                <ScalarProperty Name="EmpName" ColumnName="EmpName" />
+                <ScalarProperty Name="DateAdded" ColumnName="DateAdded" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Items">
+            <EntityTypeMapping TypeName="RanSanDBModel.Item">
+              <MappingFragment StoreEntitySet="Item">
+                <ScalarProperty Name="ItemFor" ColumnName="ItemFor" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ItemName" ColumnName="ItemName" />
+                <ScalarProperty Name="FullShotWeight" ColumnName="FullShotWeight" />
+                <ScalarProperty Name="WithoutRunnerWeight" ColumnName="WithoutRunnerWeight" />
+                <ScalarProperty Name="CycleTime" ColumnName="CycleTime" />
+                <ScalarProperty Name="PerHourTarget" ColumnName="PerHourTarget" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Machines">
+            <EntityTypeMapping TypeName="RanSanDBModel.Machine">
+              <MappingFragment StoreEntitySet="Machine">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MachineName" ColumnName="MachineName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductionDatas">
+            <EntityTypeMapping TypeName="RanSanDBModel.ProductionData">
+              <MappingFragment StoreEntitySet="ProductionData">
+                <ScalarProperty Name="Notes" ColumnName="Notes" />
+                <ScalarProperty Name="DownTimeReason" ColumnName="DownTimeReason" />
+                <ScalarProperty Name="DownTimeMinutes" ColumnName="DownTimeMinutes" />
+                <ScalarProperty Name="TotalDamaged" ColumnName="TotalDamaged" />
+                <ScalarProperty Name="MachineCounterTo" ColumnName="MachineCounterTo" />
+                <ScalarProperty Name="ToTime" ColumnName="ToTime" />
+                <ScalarProperty Name="MachineCounterFrom" ColumnName="MachineCounterFrom" />
+                <ScalarProperty Name="FromTime" ColumnName="FromTime" />
+                <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="MachineId" ColumnName="MachineId" />
+                <ScalarProperty Name="ShiftDN" ColumnName="ShiftDN" />
+                <ScalarProperty Name="WorkStartDate" ColumnName="WorkStartDate" />
+                <ScalarProperty Name="Timestamp" ColumnName="Timestamp" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShiftTimes">
+            <EntityTypeMapping TypeName="RanSanDBModel.ShiftTime">
+              <MappingFragment StoreEntitySet="ShiftTime">
+                <ScalarProperty Name="FromToTime" ColumnName="FromToTime" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DownTimeReasons">
+            <EntityTypeMapping TypeName="RanSanDBModel.DownTimeReason">
+              <MappingFragment StoreEntitySet="DownTimeReason">
+                <ScalarProperty Name="DownTimeReasonName" ColumnName="DownTimeReasonName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ForItems">
+            <EntityTypeMapping TypeName="RanSanDBModel.ForItem">
+              <MappingFragment StoreEntitySet="ForItem">
+                <ScalarProperty Name="ItemFor" ColumnName="ItemFor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RejectReasons">
+            <EntityTypeMapping TypeName="RanSanDBModel.RejectReason">
+              <MappingFragment StoreEntitySet="RejectReason">
+                <ScalarProperty Name="RejectReasonName" ColumnName="RejectReasonName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductionRejects">
+            <EntityTypeMapping TypeName="RanSanDBModel.ProductionReject">
+              <MappingFragment StoreEntitySet="ProductionReject">
+                <ScalarProperty Name="NumberOfRejects" ColumnName="NumberOfRejects" />
+                <ScalarProperty Name="RejectReasonId" ColumnName="RejectReasonId" />
+                <ScalarProperty Name="ProductionId" ColumnName="ProductionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductionDownTimes">
+            <EntityTypeMapping TypeName="RanSanDBModel.ProductionDownTime">
+              <MappingFragment StoreEntitySet="ProductionDownTime">
+                <ScalarProperty Name="DownTimeMinutes" ColumnName="DownTimeMinutes" />
+                <ScalarProperty Name="DownTimeReasonId" ColumnName="DownTimeReasonId" />
+                <ScalarProperty Name="ProductionId" ColumnName="ProductionId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
