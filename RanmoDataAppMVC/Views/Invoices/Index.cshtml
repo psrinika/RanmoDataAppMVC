@@ -1,0 +1,194 @@
+﻿@model IEnumerable<RanmoDataAppMVC.ViewModels.Invoice>
+
+@{
+    ViewBag.Title = "Invoices";
+}
+
+<table class="table-condensed">
+    <tr>
+        <td width="180px">
+            <h1>Invoices</h1>
+        </td>
+        <td align="right"><a href="@Url.Action("Create","Invoices")" class="btn btn-success"><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Create New</a></td>
+        <td align="right">        </td>
+    </tr>
+</table>
+
+
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-link  collapsed" type="button" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="false" aria-controls="collapseOne">
+                    Number of records and Filtering
+                </button>
+            </h5>
+        </div>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <table class="table table-sm table-bordered table-condensed">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Invoice # like</th>
+                            <th>Customer</th>
+                            <th>Fully Paid</th>
+                            <th>Amt Range</th>
+                            <th>Inv. Dt Range</th>
+                            <th>Notes Contains</th>
+                            <th>Records</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    @using (Html.BeginForm("Index", "Invoices", FormMethod.Post))
+                    {
+                        <tbody>
+                            <tr>
+                                <td>@Html.TextBox("invoiceNumberContains")</td>
+                                <td>@Html.TextBox("CustomerName")</td>
+
+
+                                <td>
+                                    @Html.DropDownList("fullyPaid", new List<SelectListItem>
+                                                        {
+                                                        new SelectListItem{ Text="Any", Value = "-1", Selected = true },
+                                                        new SelectListItem{ Text="Fully Paid", Value = "1" },
+                                                        new SelectListItem{ Text="Not Fully Paid", Value = "0" }
+                                                        })
+                                </td>
+                                <td>@Html.TextBox("amountFrom")</td>
+                                <td><input type="date" name="invFromDate" value=@System.DateTime.Today.AddDays(-100) /></td>
+                                <td>@Html.TextBox("notesContains")</td>
+                                <td>@Html.TextBox("noOfRecs", "10")</td>
+                                <td width="180px"></td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>@Html.Hidden("CustomerId")</td>
+                                <td></td>
+                                <td>@Html.TextBox("amountTo")</td>
+                                <td><input type="date" name="invToDate" value=@System.DateTime.Today.AddDays(1) /></td>
+                                <td></td>
+                                <td></td>
+                                <td width="180px"><button type="submit" value=" Submit">Search Items</button></td>
+                            </tr>
+                        </tbody>
+                    }
+                </table>
+            </div>
+        </div>
+
+
+
+        <table class="table table-sm table-bordered table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.InvoiceNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CustomerName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.InvoiceDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.FullyPaid)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AmountPaid)
+                    </th>
+                    <th width="200px">Actions</th>
+                </tr>
+            </thead>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvoiceNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                        @Html.HiddenFor(modelItem => item.CustomerId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InvoiceDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullyPaid)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.AmountPaid)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit","Invoices", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
+                        <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
+                    </td>
+                </tr>
+            }
+
+        </table>
+
+    </div>
+</div>
+@section scripts {
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <style>
+        .ui-autocomplete-loading {
+            background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <script>
+function Delete(id) {
+    var confirmed = confirm("Are you sure!");
+    if (confirmed) {
+        window.location.href = '@Url.Action("Delete", "Invoices")/' + id;
+    }
+    }
+
+
+$(document).ready(function() {
+    $("#CustomerName").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: '@Url.Action("GetCustomers", "Invoices")',
+                datatype: "json",
+                data: {
+                    term: request.term
+                },
+                success: function(data) {
+                    response($.map(data, function(val, item) {
+                        return {
+                            label: val.CustomerName,
+                            value: val.CustomerName,
+                            CustomerId: val.CustomerId
+                        }
+                    }))
+                }
+            })
+        },
+        select: function(event, ui) {
+            $("#CustomerId").val(ui.item.CustomerId);
+        }
+    });
+});
+
+
+    </script>
+}
+
+
+

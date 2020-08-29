@@ -16,7 +16,7 @@ C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Release\EntityFramework
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Release\EntityFramework.SqlServer.dll
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Release\EntityFramework.xml
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Release\EntityFramework.SqlServer.xml
-C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\obj\Release\RanmoDB.csprojResolveAssemblyReference.cache
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\obj\Release\RanmoDB.csproj.CoreCompileInputs.cache
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\obj\Release\RanmoDB.dll
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\obj\Release\RanmoDB.pdb
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\obj\Release\RanmoDB.csprojResolveAssemblyReference.cache

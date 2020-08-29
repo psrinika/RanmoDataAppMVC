@@ -42,7 +42,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="MachineName" Type="varchar" MaxLength="500" />
+    <Property Name="MachineName" Type="nvarchar" MaxLength="500" />
   </EntityType>
   <EntityType Name="ProductionData">
     <Key>
@@ -82,6 +82,78 @@
     <Property Name="RejectReasonId" Type="int" Nullable="false" />
     <Property Name="NumberOfRejects" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="R_Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CustomerName" Type="varchar" MaxLength="100" />
+    <Property Name="ContactPerson" Type="nvarchar" MaxLength="100" />
+    <Property Name="Address" Type="varchar" MaxLength="100" />
+    <Property Name="Tel" Type="varchar" MaxLength="100" />
+    <Property Name="Email" Type="varchar" MaxLength="100" />
+    <Property Name="Balance" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="TimeStamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="R_Invoice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="InvoiceNumber" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="CustomerId" Type="int" />
+    <Property Name="Amount" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="InvoiceDate" Type="datetime" />
+    <Property Name="AmountPaid" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="FullyPaid" Type="bit" Nullable="false" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
+    <Property Name="TimeStamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="R_InvoicePayment">
+    <Key>
+      <PropertyRef Name="PaymentId" />
+      <PropertyRef Name="InvoiceId" />
+    </Key>
+    <Property Name="PaymentId" Type="int" Nullable="false" />
+    <Property Name="InvoiceId" Type="int" Nullable="false" />
+    <Property Name="AmountPaid" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="PaymentFullyUsed" Type="bit" Nullable="false" />
+    <Property Name="InvoiceFullyPaid" Type="bit" Nullable="false" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="R_PaidBy">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PaidBy" Type="varchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="R_Payments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ReceiptNo" Type="varchar" MaxLength="100" />
+    <Property Name="InvoiceNumber" Type="varchar" MaxLength="100" />
+    <Property Name="CustomerId" Type="int" Nullable="false" />
+    <Property Name="Amount" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="PaidDate" Type="datetime" />
+    <Property Name="PaidById" Type="int" />
+    <Property Name="ReceivedDate" Type="datetime" />
+    <Property Name="ChequeDate" Type="datetime" />
+    <Property Name="ChequeNum" Type="varchar" MaxLength="100" />
+    <Property Name="PaymentStatusId" Type="int" />
+    <Property Name="AmountRemaining" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
+    <Property Name="TimeStamp" Type="datetime" />
+  </EntityType>
+  <EntityType Name="R_PaymentStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PaymentStatus" Type="varchar" MaxLength="100" />
+  </EntityType>
   <EntityType Name="RejectReason">
     <Key>
       <PropertyRef Name="Id" />
@@ -105,6 +177,12 @@
     <EntitySet Name="ProductionData" EntityType="Self.ProductionData" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductionDownTime" EntityType="Self.ProductionDownTime" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ProductionReject" EntityType="Self.ProductionReject" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="R_Customer" EntityType="Self.R_Customer" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="R_Invoice" EntityType="Self.R_Invoice" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="R_InvoicePayment" EntityType="Self.R_InvoicePayment" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="R_PaidBy" EntityType="Self.R_PaidBy" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="R_Payments" EntityType="Self.R_Payments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="R_PaymentStatus" EntityType="Self.R_PaymentStatus" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="RejectReason" EntityType="Self.RejectReason" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="ShiftTime" EntityType="Self.ShiftTime" Schema="dbo" store:Type="Tables" />
   </EntityContainer>

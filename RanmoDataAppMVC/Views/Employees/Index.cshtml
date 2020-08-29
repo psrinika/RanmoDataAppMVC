@@ -99,13 +99,10 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IsActive)
-                </td>                @*<td>
-                        @Html.DisplayFor(modelItem => item.DateAdded)
-                    </td>*@
+                </td>               
                 <td>
                     <a href="@Url.Action("Edit","Employees", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
                     <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
-
 
                 </td>
             </tr>

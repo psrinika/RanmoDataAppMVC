@@ -33,5 +33,15 @@ namespace RanmoDataAppMVC.Models
         public System.Data.Entity.DbSet<RanmoDataAppMVC.Models.Machine> Machines { get; set; }
 
         public System.Data.Entity.DbSet<RanmoDataAppMVC.Models.ProductionReject> ProductionRejects { get; set; }
+
+        public System.Data.Entity.DbSet<RanmoDataAppMVC.ViewModels.Customer> Customers { get; set; }
+
+        public System.Data.Entity.DbSet<RanmoDataAppMVC.ViewModels.Invoice> Invoices { get; set; }
+
+        public System.Data.Entity.DbSet<RanmoDataAppMVC.ViewModels.PaidBy> PaidBies { get; set; }
+
+        public System.Data.Entity.DbSet<RanmoDataAppMVC.ViewModels.Payments> Payments { get; set; }
+
+        public System.Data.Entity.DbSet<RanmoDataAppMVC.ViewModels.PaymentStatus> PaymentStatus { get; set; }
     }
 }

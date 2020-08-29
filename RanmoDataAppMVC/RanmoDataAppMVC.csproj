@@ -39,7 +39,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -198,16 +198,21 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AutoCompleteController.cs" />
+    <Compile Include="Controllers\CustomersController.cs" />
     <Compile Include="Controllers\DownTimeReasonsController.cs" />
     <Compile Include="Controllers\EmployeesController.cs" />
     <Compile Include="Controllers\Employee_WebAPIController.cs" />
     <Compile Include="Controllers\ForItemsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\ItemsController.cs" />
     <Compile Include="Controllers\Item_WebAPIController.cs" />
     <Compile Include="Controllers\MachinesController.cs" />
     <Compile Include="Controllers\Machine_WebAPIController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PaidBiesController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
+    <Compile Include="Controllers\PaymentStatusController.cs" />
     <Compile Include="Controllers\ProdTestController.cs" />
     <Compile Include="Controllers\ProductionController.cs" />
     <Compile Include="Controllers\ProductionDownTimeController.cs" />
@@ -233,6 +238,12 @@
     <Compile Include="Models\ShiftTime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Customer.cs" />
+    <Compile Include="ViewModels\Invoice.cs" />
+    <Compile Include="ViewModels\InvoicePayment.cs" />
+    <Compile Include="ViewModels\PaidBy.cs" />
+    <Compile Include="ViewModels\Payments.cs" />
+    <Compile Include="ViewModels\PaymentStatus.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -261,6 +272,7 @@
     <Content Include="Scripts\Production\SaveAll.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\TestJS2.js" />
     <Content Include="Scripts\TestJSFile.js" />
     <Content Include="Views\Production\TestJSFile.js" />
     <Content Include="Views\Experiments\RemovedFromProdEdit.txt" />
@@ -365,10 +377,36 @@
     <Content Include="Views\ProdTest\Details.cshtml" />
     <Content Include="Views\ProdTest\Edit.cshtml" />
     <Content Include="Views\ProdTest\Index.cshtml" />
+    <Content Include="Views\Customers\Create.cshtml" />
+    <Content Include="Views\Customers\Delete.cshtml" />
+    <Content Include="Views\Customers\Details.cshtml" />
+    <Content Include="Views\Customers\Edit.cshtml" />
+    <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Invoices\Create.cshtml" />
+    <Content Include="Views\Invoices\Delete.cshtml" />
+    <Content Include="Views\Invoices\Details.cshtml" />
+    <Content Include="Views\Invoices\Edit.cshtml" />
+    <Content Include="Views\Invoices\Index.cshtml" />
+    <Content Include="Views\PaidBies\Create.cshtml" />
+    <Content Include="Views\PaidBies\Delete.cshtml" />
+    <Content Include="Views\PaidBies\Details.cshtml" />
+    <Content Include="Views\PaidBies\Edit.cshtml" />
+    <Content Include="Views\PaidBies\Index.cshtml" />
+    <Content Include="Views\Payments\Create.cshtml" />
+    <Content Include="Views\Payments\Delete.cshtml" />
+    <Content Include="Views\Payments\Details.cshtml" />
+    <Content Include="Views\Payments\Edit.cshtml" />
+    <Content Include="Views\Payments\Index.cshtml" />
+    <Content Include="Views\PaymentStatus\Create.cshtml" />
+    <Content Include="Views\PaymentStatus\Delete.cshtml" />
+    <Content Include="Views\PaymentStatus\Details.cshtml" />
+    <Content Include="Views\PaymentStatus\Edit.cshtml" />
+    <Content Include="Views\PaymentStatus\Index.cshtml" />
+    <Content Include="Views\Shared\_LayoutPage1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Item\" />
+    <Folder Include="Images\" />
     <Folder Include="Views\ProductionReject\" />
   </ItemGroup>
   <ItemGroup>

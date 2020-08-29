@@ -11,8 +11,7 @@ namespace RanmoDB
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class ProductionData
     {
         public int Id { get; set; }
@@ -22,11 +21,7 @@ namespace RanmoDB
         public Nullable<int> MachineId { get; set; }
         public Nullable<int> ItemId { get; set; }
         public Nullable<double> EmployeeId { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public Nullable<System.TimeSpan> FromTime { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:hh\\:mm}", ApplyFormatInEditMode = true)]
         public Nullable<int> MachineCounterFrom { get; set; }
         public Nullable<System.TimeSpan> ToTime { get; set; }
         public Nullable<int> MachineCounterTo { get; set; }

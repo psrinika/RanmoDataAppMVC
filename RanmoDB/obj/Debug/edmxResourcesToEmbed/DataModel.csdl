@@ -28,7 +28,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="MachineName" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+    <Property Name="MachineName" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityContainer Name="RanSanDBEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Employees" EntityType="Self.Employee" />
@@ -41,6 +41,12 @@
     <EntitySet Name="RejectReasons" EntityType="RanSanDBModel.RejectReason" />
     <EntitySet Name="ProductionRejects" EntityType="RanSanDBModel.ProductionReject" />
     <EntitySet Name="ProductionDownTimes" EntityType="RanSanDBModel.ProductionDownTime" />
+    <EntitySet Name="R_Customer" EntityType="RanSanDBModel.R_Customer" />
+    <EntitySet Name="R_Invoice" EntityType="RanSanDBModel.R_Invoice" />
+    <EntitySet Name="R_PaidBy" EntityType="RanSanDBModel.R_PaidBy" />
+    <EntitySet Name="R_PaymentStatus" EntityType="RanSanDBModel.R_PaymentStatus" />
+    <EntitySet Name="R_InvoicePayment" EntityType="RanSanDBModel.R_InvoicePayment" />
+    <EntitySet Name="R_Payments" EntityType="RanSanDBModel.R_Payments" />
   </EntityContainer>
   <EntityType Name="ProductionData">
     <Key>
@@ -107,5 +113,77 @@
     <Property Name="ProductionId" Type="Int32" Nullable="false" />
     <Property Name="DownTimeReasonId" Type="Int32" Nullable="false" />
     <Property Name="DownTimeMinutes" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="R_Customer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CustomerName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="ContactPerson" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Tel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+    <Property Name="Balance" Type="Decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="R_Invoice">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InvoiceNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerId" Type="Int32" />
+    <Property Name="Amount" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
+    <Property Name="FullyPaid" Type="Boolean" Nullable="false" />
+    <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+    <Property Name="AmountPaid" Type="Decimal" Precision="10" Scale="2" />
+  </EntityType>
+  <EntityType Name="R_PaidBy">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaidBy" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="R_PaymentStatus">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="PaymentStatus" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="R_InvoicePayment">
+    <Key>
+      <PropertyRef Name="PaymentId" />
+      <PropertyRef Name="InvoiceId" />
+    </Key>
+    <Property Name="PaymentId" Type="Int32" Nullable="false" />
+    <Property Name="InvoiceId" Type="Int32" Nullable="false" />
+    <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="AmountPaid" Type="Decimal" Precision="18" Scale="2" />
+    <Property Name="PaymentFullyUsed" Type="Boolean" Nullable="false" />
+    <Property Name="InvoiceFullyPaid" Type="Boolean" Nullable="false" />
+  </EntityType>
+  <EntityType Name="R_Payments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="InvoiceNumber" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Amount" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="PaidDate" Type="DateTime" Precision="3" />
+    <Property Name="PaidById" Type="Int32" />
+    <Property Name="ReceivedDate" Type="DateTime" Precision="3" />
+    <Property Name="ChequeDate" Type="DateTime" Precision="3" />
+    <Property Name="ChequeNum" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="PaymentStatusId" Type="Int32" />
+    <Property Name="AmountRemaining" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+    <Property Name="ReceiptNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="CustomerId" Type="Int32" Nullable="false" />
   </EntityType>
 </Schema>

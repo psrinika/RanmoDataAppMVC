@@ -11,13 +11,10 @@ namespace RanmoDB
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class ShiftTime
     {
         public int Id { get; set; }
-
-   //     [DisplayFormat(DataFormatString = "{0:HH\\:mm}", ApplyFormatInEditMode = true)]
         public System.TimeSpan FromToTime { get; set; }
     }
 }

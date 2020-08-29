@@ -1,5 +1,5 @@
 ﻿@*https://stackoverflow.com/questions/5212751/how-can-i-get-id-of-inserted-entity-in-entity-framework*@
- 
+
 
 @model RanmoDataAppMVC.Models.Production
 
@@ -65,11 +65,11 @@ new SelectListItem{ Text="Night", Value = "Night" }
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                         @Html.DropDownList("ItemFor", (SelectList)ViewBag.ItemForList, "Any", new { @class = "form-control col-md-4" })
                         @Html.DropDownList("activeStatus", new List<SelectListItem>
-                                                        {
-                                                        new SelectListItem{ Text="Any", Value = "-1", Selected = true },
-                                                        new SelectListItem{ Text="Active", Value = "1" },
-                                                        new SelectListItem{ Text="Not-Active", Value = "0" }
-                                                        }, new { @class = "form-control col-md-4" })
+                                                                {
+                                                                new SelectListItem{ Text="Any", Value = "-1", Selected = true },
+                                                                new SelectListItem{ Text="Active", Value = "1" },
+                                                                new SelectListItem{ Text="Not-Active", Value = "0" }
+                                                                }, new { @class = "form-control col-md-4" })
                     </div>
                 </div>
             </div>
@@ -90,11 +90,11 @@ new SelectListItem{ Text="Night", Value = "Night" }
                     <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                         @Html.DropDownList("ItemFor", (SelectList)ViewBag.ItemForList, "Any", new { @class = "form-control col-md-4" })
                         @Html.DropDownList("activeStatus", new List<SelectListItem>
-                                                        {
-                                                        new SelectListItem{ Text="Any", Value = "-1", Selected = true },
-                                                        new SelectListItem{ Text="Active", Value = "1" },
-                                                        new SelectListItem{ Text="Not-Active", Value = "0" }
-                                                        }, new { @class = "form-control col-md-4" })
+                                                                {
+                                                                new SelectListItem{ Text="Any", Value = "-1", Selected = true },
+                                                                new SelectListItem{ Text="Active", Value = "1" },
+                                                                new SelectListItem{ Text="Not-Active", Value = "0" }
+                                                                }, new { @class = "form-control col-md-4" })
                     </div>
                 </div>
             </div>

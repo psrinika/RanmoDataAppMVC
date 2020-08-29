@@ -8,3 +8,13 @@ C:\Users\Prasad\source\repos\RanmoDataApp\RanmoDB\bin\Debug\EntityFramework.xml
 C:\Users\Prasad\source\repos\RanmoDataApp\RanmoDB\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Prasad\source\repos\RanmoDataApp\RanmoDB\obj\Debug\RanmoDB.dll
 C:\Users\Prasad\source\repos\RanmoDataApp\RanmoDB\obj\Debug\RanmoDB.pdb
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Debug\RanmoDB.dll.config
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Debug\RanmoDB.dll
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Debug\RanmoDB.pdb
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Debug\EntityFramework.dll
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Debug\EntityFramework.xml
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\obj\Debug\RanmoDB.csproj.CoreCompileInputs.cache
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\obj\Debug\RanmoDB.dll
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDB\obj\Debug\RanmoDB.pdb

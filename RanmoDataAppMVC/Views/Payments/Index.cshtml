@@ -1,0 +1,240 @@
+﻿@model IEnumerable<RanmoDataAppMVC.ViewModels.Payments>
+
+@{
+    ViewBag.Title = "Payments";
+}
+
+
+<table class="table-condensed">
+    <tr>
+        <td width="180px">
+            <h1>Payments</h1>
+        </td>
+        <td align="right"><a href="@Url.Action("Create","Payments")" class="btn btn-success"><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Create New</a></td>
+        <td align="right">        </td>
+    </tr>
+</table>
+
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-link  collapsed" type="button" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="false" aria-controls="collapseOne">
+                    Number of records and Filtering
+                </button>
+            </h5>
+        </div>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                @using (Html.BeginForm("Index", "Payments", FormMethod.Post))
+                {
+                    <table class="table table-sm table-bordered table-condensed">
+                        <thead class="thead-light">
+                            <tr>
+                                @*<th>Invoice #</th>*@
+                                <th>Customer</th>
+                                <th>Paid By</th>
+                                <th>Amt Range</th>
+                                <td>
+                                    @Html.DropDownList("DateType", new List<SelectListItem>
+                                    {
+                                    new SelectListItem{ Text="Paid Date", Value = "PaidDate", Selected = true },
+                                    new SelectListItem{ Text="Cheque Date", Value = "ChequeDate" },
+                                    new SelectListItem{ Text="Received Date", Value = "ReceivedDate" }
+                                    })
+                                </td>
+                                <th>Records</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                @*<td>@Html.TextBox("InvoiceNumber")</td>*@
+                                <td>@Html.TextBox("CustomerName")</td>
+                                <td>@Html.DropDownList("PaidById", (SelectList)ViewBag.PaidByList, "Any")</td>
+                                <td>@Html.TextBox("amountFrom")</td>
+                                <td><input type="date" name="fromDate" value=@System.DateTime.Today.AddDays(-100) /></td>
+                                <td>@Html.TextBox("noOfRecs", "10")</td>
+                                <td width="180px"></td>
+                            </tr>
+                            <tr>
+                                @*<td>@Html.Hidden("InvoiceId")</td>*@
+                                <td>@Html.Hidden("CustomerId")</td>
+                                <td></td>
+                                <td>@Html.TextBox("amountTo")</td>
+                                <td><input type="date" name="toDate" value=@System.DateTime.Today.AddDays(100) /></td>
+                                <td></td>
+                                <td width="180px"><button type="submit" value=" Submit">Search Items</button></td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                }
+            </div>
+        </div>
+
+        <table class="table table-sm table-bordered table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CustomerName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ReceiptNo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Amount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaidDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PaidById)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ChequeDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ReceivedDate)
+                    </th>
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.PaymentStatusId)
+                    </th>*@
+                    @*<th>
+                        @Html.DisplayNameFor(model => model.AmountRemaining)
+                    </th>*@
+                    <th></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                    @Html.HiddenFor(modelItem => item.CustomerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceiptNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaidDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaidBy)
+                    @Html.HiddenFor(modelItem => item.PaidById)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChequeDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceivedDate)
+                </td>
+
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.PaymentStatus)
+                    @Html.HiddenFor(modelItem => item.PaymentStatusId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AmountRemaining)
+                </td>*@
+                <td>
+                    <a href="@Url.Action("Edit","Payments", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
+                    <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
+
+                </td>
+            </tr>
+            }
+
+        </table>
+
+    </div>
+</div>
+
+
+
+@section scripts {
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        .ui-autocomplete-loading {
+            background: white url("http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/images/ui-anim_basic_16x16.gif") right center no-repeat;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <script>
+function Delete(id) {
+    var confirmed = confirm("Are you sure!");
+    if (confirmed) {
+        window.location.href = '@Url.Action("Delete", "Payments")/' + id;
+    }
+    }
+
+
+
+$(document).ready(function() {
+    $("#InvoiceNumber").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: '@Url.Action("GetInvoices", "Payments")',
+                datatype: "json",
+                data: {
+                    term: request.term
+                },
+                success: function(data) {
+                    response($.map(data, function(val, item) {
+                        return {
+                            label: val.InvoiceNumber,
+                            value: val.InvoiceNumber,
+                            InvoiceId: val.InvoiceId
+                        }
+                    }))
+                }
+            })
+        },
+        select: function(event, ui) {
+            $("#InvoiceId").val(ui.item.InvoiceId);
+        }
+    });
+});
+
+$(document).ready(function() {
+    $("#CustomerName").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: '@Url.Action("GetCustomers", "Payments")',
+                datatype: "json",
+                data: {
+                    term: request.term
+                },
+                success: function(data) {
+                    response($.map(data, function(val, item) {
+                        return {
+                            label: val.CustomerName,
+                            value: val.CustomerName,
+                            CustomerId: val.CustomerId
+                        }
+                    }))
+                }
+            })
+        },
+        select: function(event, ui) {
+            $("#CustomerId").val(ui.item.CustomerId);
+        }
+    });
+});
+
+    </script>
+}
+

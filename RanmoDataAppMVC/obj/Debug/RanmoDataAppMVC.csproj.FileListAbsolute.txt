@@ -70,7 +70,6 @@ C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\Microsoft.AI.De
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\Microsoft.AI.WindowsServer.xml
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\Microsoft.AI.Web.xml
-C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Debug\RanmoDataAppMVC.csprojResolveAssemblyReference.cache
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Debug\RanmoDataAppMVC.csproj.CoreCompileInputs.cache
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Debug\RanmoDataAppMVC.dll
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Debug\RanmoDataAppMVC.pdb

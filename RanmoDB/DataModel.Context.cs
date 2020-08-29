@@ -35,7 +35,11 @@ namespace RanmoDB
         public virtual DbSet<RejectReason> RejectReasons { get; set; }
         public virtual DbSet<ProductionReject> ProductionRejects { get; set; }
         public virtual DbSet<ProductionDownTime> ProductionDownTimes { get; set; }
-
-      //  public System.Data.Entity.DbSet<RanmoDataAppMVC.Models.Production> Productions { get; set; }
+        public virtual DbSet<R_Customer> R_Customer { get; set; }
+        public virtual DbSet<R_Invoice> R_Invoice { get; set; }
+        public virtual DbSet<R_PaidBy> R_PaidBy { get; set; }
+        public virtual DbSet<R_PaymentStatus> R_PaymentStatus { get; set; }
+        public virtual DbSet<R_InvoicePayment> R_InvoicePayment { get; set; }
+        public virtual DbSet<R_Payments> R_Payments { get; set; }
     }
 }

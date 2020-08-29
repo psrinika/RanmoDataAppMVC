@@ -1,0 +1,197 @@
+﻿@model RanmoDataAppMVC.ViewModels.Payments
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Payments</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CustomerName, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(model => model.CustomerName, new { @class = "form-control" })
+            @Html.Hidden("CustomerId")
+
+            @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ReceiptNo, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ReceiptNo, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ReceiptNo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Amount, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Amount, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PaidDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.PaidDate, new { htmlAttributes = new { @class = "form-control oso", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.PaidDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PaidById, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownListFor(m => m.PaidById, Model.PaidByList, Model.PaidBySelected, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PaidById, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ChequeDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ChequeDate, new { htmlAttributes = new { @class = "form-control oso", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.ChequeDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ChequeNum, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ChequeNum, new { htmlAttributes = new { @class = "form-control oso"} })
+            @Html.ValidationMessageFor(model => model.ChequeNum, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ReceivedDate, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.ReceivedDate, new { htmlAttributes = new { @class = "form-control oso", @type = "date" } })
+            @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Label("Payment Status", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @*@Html.EditorFor(model => model.PaymentStatusId, new { htmlAttributes = new { @class = "form-control" } })*@
+            @Html.DropDownListFor(m => m.PaymentStatusId, Model.PaymentStatusList, Model.PaymentStatusSelected, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.PaymentStatusId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    @*<div class="form-group">
+        @Html.LabelFor(model => model.AmountRemaining, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.AmountRemaining, new { htmlAttributes = new { @class = "form-control", @disabled = "disabled", @readonly = "readonly" } })
+            @Html.ValidationMessageFor(model => model.AmountRemaining, "", new { @class = "text-danger" })
+        </div>
+    </div>*@
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section scripts {
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <style>
+        .ui-autocomplete-loading {
+            background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    <script>
+
+            $(document).ready(function() {
+            $("#CustomerName").autocomplete({
+                source: function(request, response) {
+                    $.ajax({
+                        url: '@Url.Action("GetCustomers", "Customers")',
+                        datatype: "json",
+                        data: {
+                            term: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data, function(val, item) {
+                                return {
+                                    label: val.CustomerName,
+                                    value: val.CustomerName,
+                                    CustomerId: val.CustomerId
+                                }
+                            }))
+                        }
+                    })
+                },
+                select: function(event, ui) {
+                    $("#CustomerId").val(ui.item.CustomerId);
+                }
+            });
+        });
+
+
+$(document).ready(function() {
+    $("#InvoiceNumber").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: '@Url.Action("GetInvoices", "Payments")',
+                datatype: "json",
+                data: {
+                    term: request.term
+                },
+                success: function(data) {
+                    response($.map(data, function(val, item) {
+                        return {
+                            label: val.InvoiceNumber,
+                            value: val.InvoiceNumber,
+                            InvoiceId: val.InvoiceId
+                        }
+                    }))
+                }
+            })
+        },
+        select: function(event, ui) {
+            $("#InvoiceId").val(ui.item.InvoiceId);
+        }
+    });
+});
+
+
+
+
+    </script>
+}

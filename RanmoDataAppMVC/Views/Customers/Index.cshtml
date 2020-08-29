@@ -1,0 +1,122 @@
+﻿@model IEnumerable<RanmoDataAppMVC.ViewModels.Customer>
+
+@{
+    ViewBag.Title = "Customers";
+}
+
+<table width="100%" class="table-condensed">
+    <tr>
+        <td width="180px">
+            <h1>Customers</h1>
+        </td>
+        <td align="right"><a href="@Url.Action("Create","Customers")" class="btn btn-success"><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Create New</a></td>
+        <td align="right">
+
+
+            @using (Html.BeginForm("index", "Customers", FormMethod.Get))
+            {
+                <div class="accordion" id="accordionExample">
+                    <div class="card">
+                        <div class="card-header" id="headingOne">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link  collapsed" type="button" data-toggle="collapse" data-target="#collapseOne"
+                                        aria-expanded="false" aria-controls="collapseOne">
+                                    Number of records and Filtering
+                                </button>
+                            </h5>
+                        </div>
+
+                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+                            <div class="card-body">
+                                <table class="table table-sm" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td>Cust. Name Contains</td>
+                                        <td>Contact Name Contains</td>
+                                        <td>Tel. No. Contains</td>
+                                        <td>Email Contains</td>
+                                        <td>Records</td>
+                                        <td width="180px">Actions</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>@Html.TextBox("customerNameContains")</td>
+                                        <td>@Html.TextBox("contactPersonNameContains")</td>
+                                        <td>@Html.TextBox("telNoContains")</td>
+                                        <td>@Html.TextBox("emailContains")</td>
+                                        <td>@Html.TextBox("noOfRecs", "10")</td>
+                                        <td><button type="submit" value=" Submit">Search</button></td>
+                                    </tr>
+
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </td>
+    </tr>
+</table>
+
+<table class="table table-sm table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactPerson)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
+            <th width="200px">Actions</th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CustomerName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactPerson)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Balance)
+        </td>
+        <td>
+            <a href="@Url.Action("Edit","Customers", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
+            <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
+        </td>
+    </tr>
+    }
+
+</table>
+
+
+@section scripts {
+
+<script>
+        function Delete(id) {
+            var confirmed = confirm("Are you sure!");
+            if (confirmed) {
+                window.location.href = '@Url.Action("Delete", "Customers")/' + id;
+            }
+        }
+</script>
+}
