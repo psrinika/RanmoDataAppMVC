@@ -116,7 +116,9 @@
     </Key>
     <Property Name="PaymentId" Type="int" Nullable="false" />
     <Property Name="InvoiceId" Type="int" Nullable="false" />
-    <Property Name="AmountPaid" Type="decimal" Precision="18" Scale="2" />
+    <Property Name="InvoicePaymentAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="RemainingPaymentAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+    <Property Name="RemainingInvoiceAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="PaymentFullyUsed" Type="bit" Nullable="false" />
     <Property Name="InvoiceFullyPaid" Type="bit" Nullable="false" />
     <Property Name="TimeStamp" Type="datetime" Nullable="false" />

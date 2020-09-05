@@ -43,5 +43,7 @@ namespace RanmoDataAppMVC.Models
         public System.Data.Entity.DbSet<RanmoDataAppMVC.ViewModels.Payments> Payments { get; set; }
 
         public System.Data.Entity.DbSet<RanmoDataAppMVC.ViewModels.PaymentStatus> PaymentStatus { get; set; }
+
+        public System.Data.Entity.DbSet<RanmoDataAppMVC.ViewModels.InvoicePayment> InvoicePayments { get; set; }
     }
 }

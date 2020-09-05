@@ -17,8 +17,10 @@ namespace RanmoDB
         public int PaymentId { get; set; }
         public int InvoiceId { get; set; }
         public System.DateTime TimeStamp { get; set; }
-        public Nullable<decimal> AmountPaid { get; set; }
         public bool PaymentFullyUsed { get; set; }
         public bool InvoiceFullyPaid { get; set; }
+        public decimal RemainingPaymentAmount { get; set; }
+        public decimal RemainingInvoiceAmount { get; set; }
+        public decimal InvoicePaymentAmount { get; set; }
     }
 }

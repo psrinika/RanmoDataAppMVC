@@ -38,9 +38,9 @@ C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\System.Web.WebP
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\System.Web.WebPages.dll
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\System.Web.WebPages.Razor.dll
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\WebGrease.dll
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\RanmoDB.pdb
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\RanmoDB.dll.config
-C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\System.Net.Http.Formatting.xml
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\System.Web.Helpers.xml
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\System.Web.Mvc.xml
@@ -73,3 +73,8 @@ C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\Microsoft.AI.We
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Debug\RanmoDataAppMVC.csproj.CoreCompileInputs.cache
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Debug\RanmoDataAppMVC.dll
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Debug\RanmoDataAppMVC.pdb
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Debug\RanmoDataAppMVC.csprojResolveAssemblyReference.cache
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\PagedList.dll
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\PagedList.Mvc.dll
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\PagedList.xml
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\PagedList.Mvc.xml

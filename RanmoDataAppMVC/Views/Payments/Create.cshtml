@@ -190,11 +190,15 @@
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Create" class="btn btn-default" />
         </div>
+        <a href="@Url.Action("InvoicePayment","Payments", new { id = Model.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
+
     </div>
 </div>
 }
 
 <div>
+
+
     @Html.ActionLink("Back to List", "Index")
 </div>
 

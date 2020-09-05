@@ -1,5 +1,9 @@
-﻿@model IEnumerable<RanmoDataAppMVC.ViewModels.Invoice>
+﻿@*@model IEnumerable<RanmoDataAppMVC.ViewModels.Invoice>*@
 
+@model PagedList.IPagedList<RanmoDataAppMVC.ViewModels.Invoice>
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 @{
     ViewBag.Title = "Invoices";
 }
@@ -50,17 +54,25 @@
 
                                 <td>
                                     @Html.DropDownList("fullyPaid", new List<SelectListItem>
-                                                        {
-                                                        new SelectListItem{ Text="Any", Value = "-1", Selected = true },
-                                                        new SelectListItem{ Text="Fully Paid", Value = "1" },
-                                                        new SelectListItem{ Text="Not Fully Paid", Value = "0" }
-                                                        })
+                                                                                                    {
+                                                                                                    new SelectListItem{ Text="Any", Value = "-1", Selected = true },
+                                                                                                    new SelectListItem{ Text="Fully Paid", Value = "1" },
+                                                                                                    new SelectListItem{ Text="Not Fully Paid", Value = "0", Selected = true }
+                                                                                                    })
                                 </td>
                                 <td>@Html.TextBox("amountFrom")</td>
                                 <td><input type="date" name="invFromDate" value=@System.DateTime.Today.AddDays(-100) /></td>
                                 <td>@Html.TextBox("notesContains")</td>
                                 <td>@Html.TextBox("noOfRecs", "10")</td>
-                                <td width="180px"></td>
+                                <td>
+                                    @*@Html.DropDownList("sortBy", new List<SelectListItem>
+                                                                                        {
+                                                                                        new SelectListItem{ Text="Inv# ආරෝහණ", Value = "0", Selected = true },
+                                                                                        new SelectListItem{ Text="Inv# අවරෝහණ", Value = "1" },
+                                                                                        new SelectListItem{ Text="Inv Date ආරෝහණ", Value = "2" },
+                                                                                        new SelectListItem{ Text="Inv Date අවරෝහණ", Value = "3" }
+                                                                                        })*@
+                                </td>
                             </tr>
                             <tr>
                                 <td></td>
@@ -70,7 +82,7 @@
                                 <td><input type="date" name="invToDate" value=@System.DateTime.Today.AddDays(1) /></td>
                                 <td></td>
                                 <td></td>
-                                <td width="180px"><button type="submit" value=" Submit">Search Items</button></td>
+                                <td><button type="submit" value=" Submit">Search Items</button></td>
                             </tr>
                         </tbody>
                     }
@@ -84,22 +96,22 @@
             <thead class="thead-dark">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.InvoiceNumber)
+                        @Html.ActionLink("Invoice Number", "Index", new { sortOrder = ViewBag.InvoiceNumberSortParm })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CustomerName)
+                        @*@Html.DisplayNameFor(model => model.CustomerName)*@Customer Name
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Amount)
+                        @* @Html.DisplayNameFor(model => model.Amount)*@ Amount
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.InvoiceDate)
+                        @Html.ActionLink("Invoice Date", "Index", new { sortOrder = ViewBag.InvoiceDateSortParm })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.FullyPaid)
+                        @*@Html.DisplayNameFor(model => model.FullyPaid)*@ Fully Paid
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.AmountPaid)
+                        @*@Html.DisplayNameFor(model => model.AmountPaid)*@ Amount Paid
                     </th>
                     <th width="200px">Actions</th>
                 </tr>
@@ -129,12 +141,17 @@
                     </td>
                     <td>
                         <a href="@Url.Action("Edit","Invoices", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
-                        <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
+                       @* <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>*@
                     </td>
                 </tr>
             }
 
         </table>
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+             new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter, numberOfRecs = ViewBag.NumberOfRecords }))
 
     </div>
 </div>

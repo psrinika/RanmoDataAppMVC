@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using RanmoDataAppMVC.Models;
 using RanmoDataAppMVC.ViewModels;
 using RanmoDB;
@@ -17,7 +18,7 @@ namespace RanmoDataAppMVC.Controllers
         private ApplicationDbContext dbMV = new ApplicationDbContext();
         private RanSanDBEntities dbEF = new RanSanDBEntities();
 
-        public ActionResult Index()
+        public ActionResult Index0()
         {
             var dbData = dbEF.R_Invoice.Select(q => new Invoice
             {
@@ -30,14 +31,65 @@ namespace RanmoDataAppMVC.Controllers
                 FullyPaid = q.FullyPaid,
                 AmountPaid = q.AmountPaid,
                 Notes = q.Notes
-            });
+            }).OrderBy(q => q.InvoiceNumber).Take(10);
+
+
             return View(dbData);
         }
 
 
+        public ActionResult Index(string sortOrder, int? page, int? noOfRecs)
+        {
+            ViewBag.InvoiceNumberSortParm = String.IsNullOrEmpty(sortOrder) ? "InvoiceNumber_desc" : "";
+            ViewBag.InvoiceDateSortParm = sortOrder == "InvoiceDate" ? "InvoiceDate_desc" : "InvoiceDate";
+            int numberOfRecs = (noOfRecs == null || noOfRecs == 0 || noOfRecs > 1000) ? 10 : (int)noOfRecs;
+            var xx = ViewBag.NumberOfRecords;
+
+            var dbData = dbEF.R_Invoice.Where(q => q.FullyPaid == false).Select(q => new Invoice
+            {
+                Id = q.Id,
+                InvoiceNumber = q.InvoiceNumber,
+                CustomerId = q.CustomerId,
+                CustomerName = dbEF.R_Customer.Where(c => c.Id == q.CustomerId).Select(n => n.CustomerName).FirstOrDefault(),
+                Amount = q.Amount,
+                InvoiceDate = q.InvoiceDate,
+                FullyPaid = q.FullyPaid,
+                AmountPaid = q.AmountPaid,
+                Notes = q.Notes
+            });
+
+            var sortedData = dbData.OrderBy(q => q.InvoiceNumber);
+            switch (sortOrder)
+            {
+                case "InvoiceNumber_desc":
+                    sortedData = dbData.OrderByDescending(q => q.InvoiceNumber);
+                    break;
+                case "InvoiceDate":
+                    sortedData = dbData.OrderBy(q => q.InvoiceDate);
+                    break;
+                case "InvoiceDate_desc":
+                    sortedData = dbData.OrderByDescending(q => q.InvoiceDate);
+                    break;
+                default:
+                    break;
+            }
+            //            var limiteddData = sortedData.Take(10);
+
+            //https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application
+            int pageSize = numberOfRecs;
+            int pageNumber = (page ?? 1);
+            return View(sortedData.ToPagedList(pageNumber, pageSize));
+            //return View(limiteddData);
+        }
+
+
+        // https://stackoverflow.com/questions/7265186/how-do-i-specify-the-linq-orderby-argument-dynamically
+        //            }).OrderBy(s => Int32.Parse(Regex.Replace(s.InvoiceNumber, @"[^\d]", ""))).Take(10);
+        //   }).OrderBy(q => q.InvoiceNumber).Take(10);
+
         [HttpPost]
         public ActionResult Index(int? noOfRecs, string invoiceNumberContains, int? customerId, string notesContains,
-                int? fullyPaid, decimal? amountFrom, decimal? amountTo, DateTime invFromDate, DateTime invToDate)
+                int? fullyPaid, decimal? amountFrom, decimal? amountTo, DateTime invFromDate, DateTime invToDate, string sortOrder, int? page)
         {
             int numberOfRecs = (noOfRecs == null || noOfRecs == 0 || noOfRecs > 1000) ? 10 : (int)noOfRecs;
             int custId = (customerId == null) ? 0 : (int)customerId;
@@ -48,18 +100,35 @@ namespace RanmoDataAppMVC.Controllers
             DateTime invFromDt = (invFromDate == null) ? DateTime.Today.AddDays(-365) : (DateTime)invFromDate;
             DateTime invToDt = (invToDate == null) ? DateTime.Today.AddDays(100) : (DateTime)invToDate;
 
-            var dataInvNoFiltered = dbEF.R_Invoice
+            var dbData = dbEF.R_Invoice
                         .Where(q => (q.InvoiceNumber.ToLower().Contains(invoiceNumberContains.ToLower()) || invoiceNumberContains == null || invoiceNumberContains.Trim() == string.Empty)
                         && (customerId == null || q.CustomerId == custId)
                         && (q.Notes.Contains(notesContains) || notesContains == null || notesContains.Trim() == string.Empty)
                         && (q.Amount >= amtFrom && q.Amount <= amtTo)
                         && (fullyPd == -1 || q.FullyPaid == fp)
-                        && (q.InvoiceDate >= invFromDt && q.InvoiceDate <= invToDt))
-                        .OrderBy(q => q.InvoiceDate)
-                        .Take(numberOfRecs);
+                        && (q.InvoiceDate >= invFromDt && q.InvoiceDate <= invToDt));
 
 
-            var dataSorted = dataInvNoFiltered
+
+            var sortedData = dbData.OrderBy(q => q.InvoiceNumber);
+            switch (sortOrder)
+            {
+                case "InvoiceNumber_desc":
+                    sortedData = dbData.OrderByDescending(q => q.InvoiceNumber);
+                    break;
+                case "InvoiceDate":
+                    sortedData = dbData.OrderBy(q => q.InvoiceDate);
+                    break;
+                case "InvoiceDate_desc":
+                    sortedData = dbData.OrderByDescending(q => q.InvoiceDate);
+                    break;
+                default:
+                    break;
+            }
+
+            // var dataLimit = sortedData;
+            ViewBag.NumberOfRecords = numberOfRecs;
+            var data = sortedData
                 .Select(q => new Invoice
                 {
                     Id = q.Id,
@@ -73,7 +142,11 @@ namespace RanmoDataAppMVC.Controllers
                     Notes = q.Notes
                 });
 
-            return View(dataSorted);
+            int pageSize = numberOfRecs;
+            int pageNumber = (page ?? 1);
+            return View(data.ToPagedList(pageNumber, pageSize));
+
+            //return View(data);
         }
 
         public ActionResult Details(int? id)
@@ -130,7 +203,7 @@ namespace RanmoDataAppMVC.Controllers
                     //}
                     //else
                     //{
-                        ModelState.AddModelError("InvoiceNumber", errMsg);
+                    ModelState.AddModelError("InvoiceNumber", errMsg);
                     //}
                 }
             }

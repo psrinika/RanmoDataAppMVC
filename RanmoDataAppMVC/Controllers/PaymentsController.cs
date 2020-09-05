@@ -82,7 +82,6 @@ namespace RanmoDataAppMVC.Controllers
             return View(dbData);
         }
 
-
         /*
         > filtering part 
             - Date x 3 into a drop down
@@ -101,8 +100,8 @@ https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-
             https://stackoverflow.com/questions/376644/setting-ajax-url-for-jquery-in-js-file-using-asp-net-mvc
         */
         [HttpPost]
-        public ActionResult Index(int? noOfRecs, string ReceiptNo, int? CustomerId, string DateType,
-                 int? PaidById, int? PaymentStatusId, decimal? amountFrom, decimal? amountTo, DateTime fromDate, DateTime toDate)
+        public ActionResult Index(int? noOfRecs, string ReceiptNo, int? CustomerId, string DateType, int? PaidById, 
+            int? PaymentStatusId, decimal? amountFrom, decimal? amountTo, DateTime fromDate, DateTime toDate)
         {
             int numberOfRecs = (noOfRecs == null || noOfRecs == 0 || noOfRecs > 1000) ? 10 : (int)noOfRecs;
             //var custId = (customerId == null) ? 0 : (int)customerId;
@@ -327,7 +326,6 @@ https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-
             }
         }
 
-
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -342,8 +340,6 @@ https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-
             return View(payments);
         }
 
-
-
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
@@ -354,6 +350,77 @@ https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-
             return RedirectToAction("Index");
         }
 
+
+        public ActionResult InvoicePayment(int? paymentId)  // , int? invoiceId
+        {
+            
+
+            //if (paymentId == null || invoiceId == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+
+            // can chk for Payment Status ... 
+            // if not the Check Realized - redirect to Create/Edit 
+            // - if possible with an error messaage
+
+            // if paymentId  == null or  0 (as in Create new payment?
+            // if coming from Edit --> find the customer ... and from that find the invoice with oldest date and the status is not fully paid
+            /* chk if there is a record in invoicePayment
+             * 
+             * 
+             */
+            var payment = dbEF.R_Payments
+                    .Where(p => p.Id == paymentId)
+                    .FirstOrDefault();
+
+            var customerId = (payment == null)?0: payment.CustomerId;
+
+            var invoice = dbEF.R_Invoice
+                                .Where(p => p.CustomerId == customerId)
+                                .OrderBy(x => x.InvoiceDate)
+                                .FirstOrDefault();
+                                
+
+            var invoicePayment = dbEF.R_InvoicePayment
+                    .Where(p => p.PaymentId == paymentId && p.InvoiceId == invoice.Id)
+                    .FirstOrDefault();
+
+
+            return View(invoicePayment);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult InvoicePayment([Bind(Include = "Id,ReceiptNo,CustomerId,Amount,PaidDate,PaidById,ReceivedDate,ChequeDate,ChequeNum,Notes,TimeStamp")] Payments payments)
+        {
+            var invoiceDB = payments.ConvertVwModelToDB(payments);
+            ValidateModel(payments);
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    dbEF.Entry(invoiceDB).State = EntityState.Modified;
+                    dbEF.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception excp)
+                {
+                    var errMsg = excp.InnerException.InnerException.Message;
+                    ModelState.AddModelError("InvoiceNumber", errMsg);
+                }
+            }
+
+            var paidBys = dbEF.R_PaidBy.Select(q => new { q.Id, q.PaidBy });
+            var paymentStatuses = dbEF.R_PaymentStatus.Select(q => new { q.Id, q.PaymentStatus });
+            payments.PaidByList = new SelectList(paidBys, "Id", "PaidBy");
+            payments.PaymentStatusList = new SelectList(paymentStatuses, "Id", "PaymentStatus");
+            return View(payments);
+        }
+
+
+
         public JsonResult GetCustomers(string term = "")
         {
             var objCustomerlist = dbEF.R_Customer
@@ -361,8 +428,6 @@ https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-
                 .Select(q => new { CustomerId = q.Id, q.CustomerName }).ToList();
             return Json(objCustomerlist, JsonRequestBehavior.AllowGet);
         }
-
-
 
         public JsonResult GetInvoices(string term = "")
         {
@@ -391,7 +456,6 @@ https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-
 
             return Json(invoiceDetails, JsonRequestBehavior.AllowGet);
         }
-
 
         protected override void Dispose(bool disposing)
         {

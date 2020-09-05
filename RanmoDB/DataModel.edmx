@@ -121,7 +121,9 @@
           </Key>
           <Property Name="PaymentId" Type="int" Nullable="false" />
           <Property Name="InvoiceId" Type="int" Nullable="false" />
-          <Property Name="AmountPaid" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="InvoicePaymentAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RemainingPaymentAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="RemainingInvoiceAmount" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="PaymentFullyUsed" Type="bit" Nullable="false" />
           <Property Name="InvoiceFullyPaid" Type="bit" Nullable="false" />
           <Property Name="TimeStamp" Type="datetime" Nullable="false" />
@@ -358,9 +360,11 @@
           <Property Name="PaymentId" Type="Int32" Nullable="false" />
           <Property Name="InvoiceId" Type="Int32" Nullable="false" />
           <Property Name="TimeStamp" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="AmountPaid" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="PaymentFullyUsed" Type="Boolean" Nullable="false" />
           <Property Name="InvoiceFullyPaid" Type="Boolean" Nullable="false" />
+          <Property Name="RemainingPaymentAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="RemainingInvoiceAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="InvoicePaymentAmount" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="R_Payments">
           <Key>
@@ -541,9 +545,11 @@
           <EntitySetMapping Name="R_InvoicePayment">
             <EntityTypeMapping TypeName="RanSanDBModel.R_InvoicePayment">
               <MappingFragment StoreEntitySet="R_InvoicePayment">
+                <ScalarProperty Name="InvoicePaymentAmount" ColumnName="InvoicePaymentAmount" />
+                <ScalarProperty Name="RemainingInvoiceAmount" ColumnName="RemainingInvoiceAmount" />
+                <ScalarProperty Name="RemainingPaymentAmount" ColumnName="RemainingPaymentAmount" />
                 <ScalarProperty Name="InvoiceFullyPaid" ColumnName="InvoiceFullyPaid" />
                 <ScalarProperty Name="PaymentFullyUsed" ColumnName="PaymentFullyUsed" />
-                <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
                 <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
                 <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
                 <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />

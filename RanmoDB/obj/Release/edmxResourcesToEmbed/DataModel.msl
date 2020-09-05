@@ -155,9 +155,11 @@
     <EntitySetMapping Name="R_InvoicePayment">
       <EntityTypeMapping TypeName="RanSanDBModel.R_InvoicePayment">
         <MappingFragment StoreEntitySet="R_InvoicePayment">
+          <ScalarProperty Name="InvoicePaymentAmount" ColumnName="InvoicePaymentAmount" />
+          <ScalarProperty Name="RemainingInvoiceAmount" ColumnName="RemainingInvoiceAmount" />
+          <ScalarProperty Name="RemainingPaymentAmount" ColumnName="RemainingPaymentAmount" />
           <ScalarProperty Name="InvoiceFullyPaid" ColumnName="InvoiceFullyPaid" />
           <ScalarProperty Name="PaymentFullyUsed" ColumnName="PaymentFullyUsed" />
-          <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
           <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
           <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
           <ScalarProperty Name="PaymentId" ColumnName="PaymentId" />

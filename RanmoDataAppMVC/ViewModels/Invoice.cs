@@ -25,6 +25,7 @@ namespace RanmoDataAppMVC.ViewModels
         //https://www.c-sharpcorner.com/blogs/remote-validation-in-mvc-5-using-remote-attribute
         // none of the above didn't work
         public string InvoiceNumber { get; set; }
+
         public Nullable<int> CustomerId { get; set; }
 
         [DisplayName("Customer Name")]

@@ -74,3 +74,7 @@ C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\Microsoft.AI.Wi
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\Microsoft.AI.Web.xml
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Release\RanmoDataAppMVC.dll
 C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\obj\Release\RanmoDataAppMVC.pdb
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\PagedList.dll
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\PagedList.Mvc.dll
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\PagedList.xml
+C:\Users\Prasad\source\repos\RanmoDataAppMVC\RanmoDataAppMVC\bin\PagedList.Mvc.xml
