@@ -1,0 +1,124 @@
+﻿@model IEnumerable<RanmoDataAppMVC.ViewModels.InvoicePayment>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ReceiptNo)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.CustomerName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoicePaymentAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemainingPaymentAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RemainingInvoiceAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentFullyUsed)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.InvoiceFullyPaid)
+        </th>
+
+        <th></th>
+    </tr>
+    @*FormMethod.Get*@
+    @using (Html.BeginForm())
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReceiptNo)
+                </td>
+                <td>
+                    @Html.HiddenFor(modelItem => item.CustomerId)
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceAmount)
+                </td>
+                <td>
+                    @Html.EditorFor(modelItem => item.InvoicePaymentAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RemainingPaymentAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RemainingInvoiceAmount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PaymentFullyUsed)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.InvoiceFullyPaid)
+                </td>
+
+                <td>
+
+                    <a href="@Url.Action("Edit", "InvoicePayments",
+                        new {
+                            PaymentId = item.PaymentId,
+                            InvoiceId = item.InvoiceId,
+                            ReceiptNo = item.ReceiptNo,
+                            CustomerId = item.CustomerId,
+                            CustomerName = item.CustomerName,
+                            InvoiceNumber = item.InvoiceNumber,
+                            PaymentAmount = item.PaymentAmount,
+                            InvoicePaymentAmount = item.InvoicePaymentAmount,
+                            RemainingPaymentAmount = item.RemainingPaymentAmount,
+                            RemainingInvoiceAmount = item.RemainingInvoiceAmount,
+                            PaymentFullyUsed = item.PaymentFullyUsed,
+                            InvoiceFullyPaid = item.InvoiceFullyPaid
+                        })" class="btn btn-default"><i class="fa fa-pencil "></i>Edit</a>
+
+                    @*<button type="button" class="btn btn-success submit">Edit</button>*@
+                    @*<input type="submit" value="Save" />*@
+                    @*@Html.ActionLink("Edit", "Edit", new {  id=item.PaymentId }) |*@
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+@section scripts {
+    <!-- JS includes -->
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+    <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/mvc/4.0/jquery.validate.unobtrusive.min.js"></script>
+}
+
+

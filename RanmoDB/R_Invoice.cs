@@ -21,7 +21,7 @@ namespace RanmoDB
         public Nullable<System.DateTime> InvoiceDate { get; set; }
         public bool FullyPaid { get; set; }
         public string Notes { get; set; }
-        public Nullable<System.DateTime> TimeStamp { get; set; }
+        public System.DateTime TimeStamp { get; set; }
         public Nullable<decimal> AmountPaid { get; set; }
     }
 }

@@ -15,10 +15,18 @@ namespace RanmoDataAppMVC.ViewModels
         public string Address { get; set; }
         public string Tel { get; set; }
         public string Email { get; set; }
-        public Nullable<System.DateTime> TimeStamp { get; set; }
+
+        public bool Active { get; set; }
+
+        [DataType(DataType.MultilineText)]
+        public string Notes { get; set; }
+
+        public Nullable<DateTime> TimeStamp { get; set; }
 
         [RegularExpression(@"^\d+.\d{0,2}", ErrorMessage = "Amount Should be a valid number with 2 decimals. ex: 2345.50 ")]
         public Nullable<decimal> Balance { get; set; }
+
+
 
         public R_Customer ConvertVwModelToDB(Customer customer)
         {
@@ -29,7 +37,10 @@ namespace RanmoDataAppMVC.ViewModels
             c.Address = customer.Address;
             c.Tel = customer.Tel;
             c.Email = customer.Email;
-
+            c.Active = customer.Active;
+            c.Balance = customer.Balance;
+            c.Notes = customer.Notes;
+            c.TimeStamp = DateTime.Now;
             return c;
         }
 
@@ -45,7 +56,10 @@ namespace RanmoDataAppMVC.ViewModels
                 ContactPerson = q.ContactPerson,
                 Address = q.Address,
                 Tel = q.Tel,
-                Email = q.Email
+                Email = q.Email,
+                Balance=q.Balance,
+                Active = q.Active,
+                Notes = q.Notes
             })
             .FirstOrDefault();
 
@@ -61,6 +75,7 @@ namespace RanmoDataAppMVC.ViewModels
 
             return customerEF;
         }
+
 
 
     }

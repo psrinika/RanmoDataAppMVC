@@ -201,7 +201,7 @@ namespace RanmoDataAppMVC.Controllers
 
         // POST: ProductionDatas/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // .
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Timestamp,WorkStartDate,ShiftDN,MachineId,ItemId,EmployeeId,FromTime,MachineCounterFrom,ToTime,MachineCounterTo,TotalDamaged,DownTimeMinutes,DownTimeReason,Notes")] ProductionData productionData)
@@ -304,7 +304,7 @@ namespace RanmoDataAppMVC.Controllers
 
         // POST: ProductionDatas/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // .
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,Timestamp,WorkStartDate,ShiftDN,MachineId,ItemId,EmployeeId,FromTime,MachineCounterFrom,ToTime,MachineCounterTo,TotalDamaged,DownTimeMinutes,DownTimeReason,Notes")] ProductionData productionData)

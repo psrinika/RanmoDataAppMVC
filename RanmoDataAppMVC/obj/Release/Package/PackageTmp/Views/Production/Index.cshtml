@@ -1,0 +1,210 @@
+﻿@model IEnumerable<RanmoDataAppMVC.Models.Production>
+
+@{
+    ViewBag.Title = "Production Data";
+}
+
+<table class="table-condensed">
+    <tr>
+        <td width="380px">
+            <h1>Production Data</h1>
+        </td>
+        <td align="right">
+       @* <a href="@Url.Action("Create","Production")" class="btn btn-success" ><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Create New</a>*@
+        <a href="@Url.Action("Create","Production")" class="btn btn-success" ><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Create New</a>
+        </td>
+    </tr>
+</table>
+
+@*
+    nice looking buttons etc - using Google ...
+    https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=crud-data-table-for-database-with-modal-form*@
+
+<div class="accordion" id="accordionExample">
+    <div class="card">
+        <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+                <button class="btn btn-link  collapsed" type="button" data-toggle="collapse" data-target="#collapseOne"
+                        aria-expanded="false" aria-controls="collapseOne">
+                    Number of records and Filtering
+                </button>
+            </h5>
+        </div>
+        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div class="card-body">
+                <table class="table table-sm table-bordered table-condensed">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>
+                                From Date
+                            </th>
+                            <th>
+                                To Date
+                            </th>
+                            <th>
+                                Shift
+                            </th>
+                            <th>
+                                Machine Name Like
+                            </th>
+                            <th>
+                                Item Name Like
+                            </th>
+                            <th>
+                                Employee Name Like
+                            </th>
+                            <th>
+                                From
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+
+                            </th>
+                            <th>
+                                Records
+                            </th>
+                            <th width="180px">Actions</th>
+                        </tr>
+                        @using (Html.BeginForm("FilteredData", "Production", FormMethod.Post))
+                        {
+
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <input type="date" name="startDate" value="@ViewBag.startDate" />
+                                </td>
+                                <td>
+                                    <input type="date" name="endDate" value="@ViewBag.endDate" />
+                                </td>
+                                <td>
+                                    @Html.DropDownList("shift", new List<SelectListItem>
+                                    {
+                                        new SelectListItem{ Text="Any", Value = "Any", Selected = true },
+                                        new SelectListItem{ Text="Day", Value = "Day" },
+                                        new SelectListItem{ Text="Night", Value = "Night" }
+                                    })
+                                </td>
+                                <td>
+                                    @Html.TextBox("machineNameContains")
+                                </td>
+                                <td>
+                                    @Html.TextBox("itemNameContains")
+                                </td>
+                                <td>
+                                    @Html.TextBox("empNameContains")
+                                </td>
+                                <td>
+                                    From
+                                </td>
+                                <td></td>
+                                <td></td>
+                                <td>@Html.TextBox("noOfRecs", "10")</td>
+                                <td width="180px"><button type="submit" value=" Submit">Search Items</button></td>
+                            </tr>
+                        </tbody>
+                    }
+                    </table>
+                </div>
+            </div>
+
+            <table class="table table-sm table-bordered table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+
+                        <th>
+                            Start_Date
+                        </th>
+                        <th>
+                            Shift
+                        </th>
+                        <th>
+                            Mc
+                        </th>
+                        <th>
+                            Item
+                        </th>
+                        <th>
+                            Employee
+                        </th>
+                        <th>
+                            From
+                        </th>
+                        <th>
+                            Mc.Cnt From
+                        </th>
+                        <th>
+                            To
+                        </th>
+                        <th>
+                            Mc.Cnt To
+                        </th>
+
+                        <th width="180px">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.WorkStartDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ShiftDN)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MachineName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemObj.ItemForAndName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.EmployeeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.FromTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MachineCounterFrom)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ToTime)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MachineCounterTo)
+                            </td>
+                            <td>
+                                @*style="visibility: hidden"*@
+                                @if (@item.DamagesBreakdownAndNotes.Length > 0)
+                                {
+                                    <a tabindex="0" class="btn btn-sm btn-primary mb1 bg-green" role="button" data-toggle="popover"
+                                   data-placement="left" data-trigger="focus" title="Other details"
+                                   data-content="@item.DamagesBreakdownAndNotes" data-html="true">i</a>
+                                }
+                                <a href="@Url.Action("Edit","Production", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
+                                <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+
+    @section scripts {
+
+        <script>
+        function Delete(id) {
+            var confirmed = confirm("Are you sure!");
+            if (confirmed) {
+                window.location.href = '@Url.Action("Delete","Production")/' + id;
+            }
+        }
+        $("[data-toggle=popover]").popover();
+
+
+        </script>
+    }

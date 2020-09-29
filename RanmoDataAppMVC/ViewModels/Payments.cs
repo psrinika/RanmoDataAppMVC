@@ -43,7 +43,7 @@ namespace RanmoDataAppMVC.ViewModels
         public bool PayAnyUnPaid { get; set; }
 
         [RegularExpression(@"^\d+.\d{0,2}", ErrorMessage = "Amount Should be a valid number with 2 decimals. ex: 2345.50 ")]
-        public Nullable<decimal> AmountRemaining { get; set; }
+        public Nullable<decimal> AmountPaid { get; set; }
 
         public string Notes { get; set; }
         public Nullable<System.DateTime> TimeStamp { get; set; }
@@ -66,6 +66,7 @@ namespace RanmoDataAppMVC.ViewModels
             paymentEF.ChequeNum = payments.ChequeNum;
             paymentEF.PaidDate = payments.PaidDate;
             paymentEF.Notes = payments.Notes;
+            paymentEF.TimeStamp = DateTime.Now;
             return paymentEF;
         }
 

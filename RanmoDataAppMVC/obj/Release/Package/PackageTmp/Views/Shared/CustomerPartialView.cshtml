@@ -1,0 +1,52 @@
+﻿@*@model RanmoDataAppMVC.ViewModels.Customer*@
+
+@Html.TextBox("CustomerName")
+@Html.Hidden("CustomerId")
+
+@section scripts {
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    <style>
+        .ui-autocomplete-loading {
+            background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <script>
+
+
+$(document).ready(function() {
+    $("#CustomerName").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: '@Url.Action("GetCustomers", "Customers")',
+                datatype: "json",
+                data: {
+                    term: request.term
+                },
+                success: function(data) {
+                    response($.map(data, function (val, item) {
+                        alert(val.CustomerId);
+                        return {
+                            label: val.CustomerName,
+                            value: val.CustomerName,
+                            CustomerId: val.CustomerId
+                        }
+                    }))
+                }
+            })
+        },
+        select: function(event, ui) {
+            $("#CustomerId").val(ui.item.CustomerId);
+        }
+    });
+});
+
+
+    </script>
+}
+
+
+

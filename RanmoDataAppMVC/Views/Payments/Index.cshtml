@@ -1,4 +1,7 @@
-﻿@model IEnumerable<RanmoDataAppMVC.ViewModels.Payments>
+﻿@*@model IEnumerable<RanmoDataAppMVC.ViewModels.Payments>*@
+@model PagedList.IPagedList<RanmoDataAppMVC.ViewModels.Payments>
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewBag.Title = "Payments";
@@ -27,51 +30,51 @@
         </div>
         <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
             <div class="card-body">
-                @using (Html.BeginForm("Index", "Payments", FormMethod.Post))
-                {
-                    <table class="table table-sm table-bordered table-condensed">
-                        <thead class="thead-light">
-                            <tr>
-                                @*<th>Invoice #</th>*@
-                                <th>Customer</th>
-                                <th>Paid By</th>
-                                <th>Amt Range</th>
-                                <td>
-                                    @Html.DropDownList("DateType", new List<SelectListItem>
-                                    {
-                                    new SelectListItem{ Text="Paid Date", Value = "PaidDate", Selected = true },
-                                    new SelectListItem{ Text="Cheque Date", Value = "ChequeDate" },
-                                    new SelectListItem{ Text="Received Date", Value = "ReceivedDate" }
-                                    })
-                                </td>
-                                <th>Records</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
+                @using (Html.BeginForm("Index", "Payments", FormMethod.Get))
+            {
+                <table class="table table-sm table-bordered table-condensed">
+                    <thead class="thead-light">
+                        <tr>
+                            @*<th>Invoice #</th>*@
+                            <th>Customer</th>
+                            <th>Paid By</th>
+                            <th>Amt Range</th>
+                            <td>
+                                @Html.DropDownList("DateType", new List<SelectListItem>
+                                                                                                            {
+                                                                                                            new SelectListItem{ Text="Paid Date", Value = "PaidDate", Selected = true },
+                                                                                                            new SelectListItem{ Text="Cheque Date", Value = "ChequeDate" },
+                                                                                                            new SelectListItem{ Text="Received Date", Value = "ReceivedDate" }
+                                                                                                            })
+                            </td>
+                            <th>Records</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
 
-                        <tbody>
-                            <tr>
-                                @*<td>@Html.TextBox("InvoiceNumber")</td>*@
-                                <td>@Html.TextBox("CustomerName")</td>
-                                <td>@Html.DropDownList("PaidById", (SelectList)ViewBag.PaidByList, "Any")</td>
-                                <td>@Html.TextBox("amountFrom")</td>
-                                <td><input type="date" name="fromDate" value=@System.DateTime.Today.AddDays(-100) /></td>
-                                <td>@Html.TextBox("noOfRecs", "10")</td>
-                                <td width="180px"></td>
-                            </tr>
-                            <tr>
-                                @*<td>@Html.Hidden("InvoiceId")</td>*@
-                                <td>@Html.Hidden("CustomerId")</td>
-                                <td></td>
-                                <td>@Html.TextBox("amountTo")</td>
-                                <td><input type="date" name="toDate" value=@System.DateTime.Today.AddDays(100) /></td>
-                                <td></td>
-                                <td width="180px"><button type="submit" value=" Submit">Search Items</button></td>
-                            </tr>
-                        </tbody>
+                    <tbody>
+                        <tr>
+                            @*<td>@Html.TextBox("InvoiceNumber")</td>*@
+                            <td>@Html.TextBox("CustomerName")</td>
+                            <td>@Html.DropDownList("PaidById", (SelectList)ViewBag.PaidByList, "Any")</td>
+                            <td>@Html.TextBox("amountFrom")</td>
+                            <td><input type="date" name="fromDate" value=@System.DateTime.Today.AddDays(-100) /></td>
+                            <td>@Html.TextBox("noOfRecs", "10")</td>
+                            <td width="180px"></td>
+                        </tr>
+                        <tr>
+                            @*<td>@Html.Hidden("InvoiceId")</td>*@
+                            <td>@Html.Hidden("CustomerId")</td>
+                            <td></td>
+                            <td>@Html.TextBox("amountTo")</td>
+                            <td><input type="date" name="toDate" value=@System.DateTime.Today.AddDays(100) /></td>
+                            <td></td>
+                            <td width="180px"><button type="submit" value=" Submit">Search Items</button></td>
+                        </tr>
+                    </tbody>
 
-                    </table>
-                }
+                </table>
+        }
             </div>
         </div>
 
@@ -79,37 +82,83 @@
             <thead class="thead-dark">
                 <tr>
                     <th>
-                        @Html.DisplayNameFor(model => model.CustomerName)
+                        @Html.ActionLink("Customer", "Index", new
+                    {
+                        sortOrder = ViewBag.CustomerNameSortParm,
+                        noOfRecs = ViewBag.NumberOfRecords,
+                        ReceiptNo = ViewBag.ReceiptNo,
+                        CustomerName = ViewBag.CustomerName,
+                        PaidById = ViewBag.PaidById,
+                        PaymentStatusId = ViewBag.PaymentStatusId,
+                        amountFrom = ViewBag.amountFrom,
+                        fromDate = ViewBag.fromDate,
+                        notesContains = ViewBag.notesContains,
+                        CustomerId = ViewBag.CustomerId,
+                        amountTo = ViewBag.amountTo,
+                        toDate = ViewBag.toDate
+                    })
+
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ReceiptNo)
+                        
+                        @Html.ActionLink("Receipt#", "Index", new
+    {
+        sortOrder = ViewBag.ReceiptNoSortParm,
+        noOfRecs = ViewBag.NumberOfRecords,
+        ReceiptNo = ViewBag.ReceiptNo,
+        CustomerName = ViewBag.CustomerName,
+        PaidById = ViewBag.PaidById,
+        PaymentStatusId = ViewBag.PaymentStatusId,
+        amountFrom = ViewBag.amountFrom,
+        fromDate = ViewBag.fromDate,
+        notesContains = ViewBag.notesContains,
+        CustomerId = ViewBag.CustomerId,
+        amountTo = ViewBag.amountTo,
+        toDate = ViewBag.toDate
+    })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.Amount)
+                        Amount
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.PaidDate)
+                        
+
+                        @Html.ActionLink("PaidDate", "Index", new
+    {
+        sortOrder = ViewBag.PaidDateSortParm,
+        noOfRecs = ViewBag.NumberOfRecords,
+        ReceiptNo = ViewBag.ReceiptNo,
+        CustomerName = ViewBag.CustomerName,
+        PaidById = ViewBag.PaidById,
+        PaymentStatusId = ViewBag.PaymentStatusId,
+        amountFrom = ViewBag.amountFrom,
+        fromDate = ViewBag.fromDate,
+        notesContains = ViewBag.notesContains,
+        CustomerId = ViewBag.CustomerId,
+        amountTo = ViewBag.amountTo,
+        toDate = ViewBag.toDate
+    })
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.PaidById)
+                        PaidById
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ChequeDate)
+                        ChequeDate
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.ReceivedDate)
+                        ReceivedDate
                     </th>
-                    @*<th>
-                        @Html.DisplayNameFor(model => model.PaymentStatusId)
-                    </th>*@
+                    <th>
+                        PaymentStatusId
+                    </th>
                     @*<th>
                         @Html.DisplayNameFor(model => model.AmountRemaining)
                     </th>*@
-                    <th></th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             @foreach (var item in Model)
-            {
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.CustomerName)
@@ -135,12 +184,12 @@
                     @Html.DisplayFor(modelItem => item.ReceivedDate)
                 </td>
 
-                @*<td>
+                <td>
                     @Html.DisplayFor(modelItem => item.PaymentStatus)
                     @Html.HiddenFor(modelItem => item.PaymentStatusId)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.AmountRemaining)
+                @*<td>
+                       @Html.DisplayFor(modelItem => item.AmountRemaining)
                 </td>*@
                 <td>
                     <a href="@Url.Action("Edit","Payments", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
@@ -148,10 +197,29 @@
 
                 </td>
             </tr>
-            }
+    }
 
         </table>
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+                        new
+                        {
+                            page,
+                            sortOrder = ViewBag.CustomerNameSortParm,
+                            noOfRecs = ViewBag.NumberOfRecords,
+                            ReceiptNo = ViewBag.ReceiptNo,
+                            CustomerName = ViewBag.CustomerName,
+                            PaidById = ViewBag.PaidById,
+                            PaymentStatusId = ViewBag.PaymentStatusId,
+                            amountFrom = ViewBag.amountFrom,
+                            fromDate = ViewBag.fromDate,
+                            notesContains = ViewBag.notesContains,
+                            CustomerId = ViewBag.CustomerId,
+                            amountTo = ViewBag.amountTo,
+                            toDate = ViewBag.toDate
+                        }))
     </div>
 </div>
 

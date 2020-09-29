@@ -1,0 +1,74 @@
+﻿            <div class="form-group">
+        @Html.Label("Rejected", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-6">
+            <form id="NewRejectedReasonForm">
+                <div class="modal-body">
+                    <h5 style="margin-top:10px;color:#ff6347">Reject records</h5>
+                    <hr />
+                    <div class="form-horizontal">
+                        <input type="hidden" id="OrderId" />
+
+                        <table cellpadding="5" cellspacing="5">
+                            <tr>
+                                <td width="25%">
+                                    Rejected Reason
+                                </td>
+                                <td width="45%">
+                                    @Html.DropDownList("rejectedReason", (SelectList)ViewBag.RejectReasonList)
+                                </td>
+                                <td width="18%">
+                                    No of Items
+                                </td>
+                                <td width="12%">
+                                    <input type="number" id="quantity" name="quantity" placeholder="No of rejected items" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a id="addToList" class="btn btn-success" data-toggle="modal"><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Add To List</a>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table id="detailsTable" class="table table-sm table-bordered table-condensed">
+                            <thead>
+                                <tr>
+                                    <th style="width:60%">Rejected Reason</th>
+                                    <th style="width:30%">No of Items</th>
+                                    <th style="width:10%"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.ProductionRejectList)
+                                {
+                                    <tr>
+                                        <td>
+                                            @item.ProductionId  @*style="display:none;"*@
+                                        </td>
+                                        <td>
+                                            @item.RejectReasonId
+                                        </td>
+                                        <td>
+                                            @item.RejectReasonName
+                                        </td>
+                                        <td>
+                                            @item.NumberOfRejects
+                                        </td>
+                                        <td>
+                                            <a data-itemId="0" href="#" class="deleteItem">Remove</a>
+                                        </td>
+                                    </tr>
+                                }
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="saveRejReasons" type="submit" class="btn btn-danger">Save Recected Reasons</button>
+                </div>
+            </form>
+        </div>
+    </div>

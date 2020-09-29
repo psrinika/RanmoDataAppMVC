@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using RanmoDataAppMVC.Models;
 using RanmoDataAppMVC.ViewModels;
 using RanmoDB;
@@ -54,7 +56,7 @@ namespace RanmoDataAppMVC.Controllers
             return View(dbData);
         }
 
-        public ActionResult Index()
+        public ActionResult Index1()
         {
             var dbData = dbEF.R_Payments.Select(q => new Payments
             {
@@ -82,6 +84,148 @@ namespace RanmoDataAppMVC.Controllers
             return View(dbData);
         }
 
+        public ActionResult Index(int? noOfRecs, string ReceiptNo, int? CustomerId, string CustomerName, string DateType, 
+            int? PaidById, int? PaymentStatusId, decimal? amountFrom, decimal? amountTo, DateTime? fromDate, 
+            DateTime? toDate, string sortOrder, int? page, string CurrentFilter)
+        {
+            ViewBag.CurrentFilter = CurrentFilter;
+            ViewBag.sortOrder = sortOrder;
+
+            ViewBag.ReceiptNoSortParm = String.IsNullOrEmpty(sortOrder) ? "ReceiptNo_desc" : "";
+            ViewBag.PaidDateSortParm = sortOrder == "PaidDate" ? "PaidDate_desc" : "PaidDate";
+            ViewBag.CustomerNameSortParm = sortOrder == "CustomerName" ? "CustomerName_desc" : "CustomerName";
+
+
+
+            int numberOfRecs = (noOfRecs == null || noOfRecs == 0 || noOfRecs > 1000) ? 10 : (int)noOfRecs;
+
+            decimal amtFrom = (amountFrom == null) ? 0 : (decimal)amountFrom;
+            decimal amtTo = (amountTo == null) ? 10000000 : (decimal)amountTo;
+
+            DateTime paidFromDt = DateTime.Today.AddDays(-365);
+            DateTime paidToDt = DateTime.Today.AddDays(100);
+
+            DateTime chequeFromDt = DateTime.Today.AddDays(-365);
+            DateTime chequeToDt = DateTime.Today.AddDays(100);
+
+            DateTime receivedFromDt = DateTime.Today.AddDays(-365);
+            DateTime receivedToDt = DateTime.Today.AddDays(100);
+
+            if (fromDate != null)
+            {
+                if (DateType == "PaidDate")
+                {
+                    paidFromDt = (DateTime)fromDate;
+                }
+                else if (DateType == "ChequeDate")
+                {
+                    chequeFromDt = (DateTime)fromDate;
+                }
+                else if (DateType == "ReceivedDate")
+                {
+                    receivedFromDt = (DateTime)fromDate;
+                }
+            }
+            if (toDate != null)
+            {
+                if (DateType == "PaidDate")
+                {
+                    paidToDt = (DateTime)toDate;
+                }
+                else if (DateType == "ChequeDate")
+                {
+                    chequeToDt = (DateTime)toDate;
+                }
+                else if (DateType == "ReceivedDate")
+                {
+                    receivedToDt = (DateTime)toDate;
+                }
+            }
+
+            var dbData = dbEF.R_Payments
+                        .Where(q => (ReceiptNo == null || ReceiptNo.Trim() == string.Empty ||
+                            q.ReceiptNo.ToLower().Contains(ReceiptNo.ToLower()))
+                        && (CustomerId == null || q.CustomerId == CustomerId)
+                        && (PaidById == null || q.PaidById == PaidById)
+                        && (q.Amount >= amtFrom && q.Amount <= amtTo)
+                        && ((q.PaidDate == null && DateType != "PaidDate") || (q.PaidDate >= paidFromDt && q.PaidDate <= paidToDt))
+                        && ((q.ChequeDate == null && DateType != "ChequeDate") || (q.ChequeDate >= chequeFromDt && q.ChequeDate <= chequeToDt))
+                        && ((q.ReceivedDate == null && DateType != "ReceivedDate") || (q.ReceivedDate >= receivedFromDt && q.ReceivedDate <= receivedToDt))
+                        )
+                        .Join(dbEF.R_Customer, i => i.CustomerId, c => c.Id, (i, c) => new { I = i, c.CustomerName })
+                      .Where(c => (string.IsNullOrEmpty(CustomerName) || c.CustomerName.Contains(CustomerName)));
+            ;
+            // .OrderBy(q => q.ReceivedDate);
+            //.Take(numberOfRecs);
+
+            var sortedData = dbData.OrderBy(q => SqlFunctions.Replicate("0", 20 - q.I.ReceiptNo.Length) + q.I.ReceiptNo);
+            switch (sortOrder)
+            {
+                case "ReceiptNo_desc":
+                    sortedData = dbData.OrderByDescending(q => SqlFunctions.Replicate("0", 20 - q.I.ReceiptNo.Length) + q.I.ReceiptNo);
+                    break;
+                case "PaidDate":
+                    sortedData = dbData.OrderBy(q => q.I.PaidDate);
+                    break;
+                case "PaidDate_desc":
+                    sortedData = dbData.OrderByDescending(q => q.I.PaidDate);
+                    break;
+                case "CustomerName":
+                    sortedData = dbData.OrderBy(q => q.CustomerName);
+                    break;
+                case "CustomerName_desc":
+                    sortedData = dbData.OrderByDescending(q => q.CustomerName);
+                    break;
+                default:
+                    break;
+            }
+
+            ViewBag.NumberOfRecords = noOfRecs;
+            ViewBag.ReceiptNo = ReceiptNo;
+            CustomerName = ViewBag.CustomerName;
+            ViewBag.PaidById = PaidById;
+            ViewBag.PaymentStatusId = PaymentStatusId;
+            ViewBag.amountFrom = amountFrom;
+            fromDate = ViewBag.fromDate;
+            //ViewBag.notesContains = notesContains;
+            ViewBag.CustomerId = CustomerId;
+            ViewBag.amountTo = amountTo;
+            ViewBag.toDate = toDate;
+
+            var data = sortedData
+                .Select(q => new Payments
+                {
+                    Id = q.I.Id,
+                    ReceiptNo = q.I.ReceiptNo,
+                    CustomerId = q.I.CustomerId,
+                    CustomerName = dbEF.R_Customer.Where(c => c.Id == q.I.CustomerId).Select(n => n.CustomerName).FirstOrDefault(),
+                    Amount = q.I.Amount,
+                    PaidById = q.I.PaidById,
+                    PaidBy = dbEF.R_PaidBy.Where(c => c.Id == q.I.PaidById).Select(n => n.PaidBy).FirstOrDefault(),
+                    PaymentStatusId = q.I.PaymentStatusId,
+                    PaymentStatus = dbEF.R_PaymentStatus.Where(c => c.Id == q.I.PaymentStatusId).Select(n => n.PaymentStatus).FirstOrDefault(),
+                    ReceivedDate = q.I.ReceivedDate,
+                    ChequeDate = q.I.ChequeDate,
+                    PaidDate = q.I.PaidDate,
+                    Notes = q.I.Notes
+                });
+
+
+
+            SelectList paidByLst = new SelectList(dbEF.R_PaidBy.ToList(), "Id", "PaidBy");
+            ViewBag.PaidByList = paidByLst;
+
+            SelectList paymentStatusLst = new SelectList(dbEF.R_PaymentStatus.ToList(), "Id", "PaymentStatus");
+            ViewBag.PaymentStatusList = paymentStatusLst;
+            //return View(dataSorted);
+
+            int pageSize = numberOfRecs;
+            int pageNumber = (page ?? 1);
+            return View(data.ToPagedList(pageNumber, pageSize));
+
+        }
+
+
         /*
         > filtering part 
             - Date x 3 into a drop down
@@ -94,10 +238,7 @@ namespace RanmoDataAppMVC.Controllers
                 by invoice / by customer
         > add fields as chk number or let them put in notes ...
 
-https://www.google.com/search?rlz=1C1NHXL_enCA736CA736&sxsrf=ALeKk02KED6s3y1-yQbEGzw9JnhsDh-RAw%3A1595723481117&ei=2c4cX5PGBs_j_AbE7pyoAg&q=mvc+autocomplete+ajax+query+based+on+selection&oq=mvc+autocomplete+ajax+query+based+on+selection&gs_lcp=CgZwc3ktYWIQAzoECAAQRzoCCAA6BggAEBYQHjoFCCEQoAE6CAgAEAgQDRAeOgcIIRAKEKABOgQIIRAVUKmdlgRYl_iYBGCh-pgEaApwAXgAgAGqAogB5SSSAQcxNC4yMi4zmAEAoAECoAEBqgEHZ3dzLXdpesABAQ&sclient=psy-ab&ved=0ahUKEwjTloGa1enqAhXPMd8KHUQ3ByUQ4dUDCAw&uact=5
-https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-selection-of-autocomplete-text-field-value-in
 
-            https://stackoverflow.com/questions/376644/setting-ajax-url-for-jquery-in-js-file-using-asp-net-mvc
         */
         [HttpPost]
         public ActionResult Index(int? noOfRecs, string ReceiptNo, int? CustomerId, string DateType, int? PaidById, 
@@ -228,9 +369,9 @@ https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,ReceiptNo,CustomerId,Amount,PaidDate,PaidById,ReceivedDate,ChequeDate,ChequeNum,Notes,TimeStamp")] Payments payments)
+        public ActionResult Create([Bind(Include = "Id,ReceiptNo,CustomerId,Amount,PaidDate,PaidById,PaymentStatusId,ReceivedDate,ChequeDate,ChequeNum,Notes,TimeStamp")] Payments payments)
         {
-            var i = payments.ConvertVwModelToDB(payments);
+            var p = payments.ConvertVwModelToDB(payments);
 
             ValidateModel(payments);
 
@@ -238,7 +379,7 @@ https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-
             {
                 try
                 {
-                    dbEF.R_Payments.Add(i);
+                    dbEF.R_Payments.Add(p);
                     dbEF.SaveChanges();
                     return RedirectToAction("Index");
                 }
@@ -279,15 +420,15 @@ https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ReceiptNo,CustomerId,Amount,PaidDate,PaidById,ReceivedDate,ChequeDate,ChequeNum,Notes,TimeStamp")] Payments payments)
+        public ActionResult Edit([Bind(Include = "Id,ReceiptNo,CustomerId,Amount,PaidDate,PaidById,PaymentStatusId,ReceivedDate,ChequeDate,ChequeNum,Notes,TimeStamp")] Payments payments)
         {
-            var invoiceDB = payments.ConvertVwModelToDB(payments);
+            var paymentDB = payments.ConvertVwModelToDB(payments);
             ValidateModel(payments);
             if (ModelState.IsValid)
             {
                 try
                 {
-                    dbEF.Entry(invoiceDB).State = EntityState.Modified;
+                    dbEF.Entry(paymentDB).State = EntityState.Modified;
                     dbEF.SaveChanges();
                     return RedirectToAction("Index");
                 }

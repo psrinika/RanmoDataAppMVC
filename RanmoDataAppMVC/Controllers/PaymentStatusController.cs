@@ -20,6 +20,18 @@ namespace RanmoDataAppMVC.Controllers
         public ActionResult Index()
         {
             var dbData = dbEF.R_PaymentStatus.Select(q => new PaymentStatus { Id = q.Id, Payment_Status = q.PaymentStatus });
+            //var psl = dbData.ToList();
+            PaymentStatusList psl = new PaymentStatusList();
+            psl.psLst = dbData.ToList();
+
+            return View(psl);
+        }
+
+
+        [HttpPost]
+        public ActionResult Index(PaymentStatusList m)
+        {
+            var dbData = m;
             return View(dbData);
         }
 

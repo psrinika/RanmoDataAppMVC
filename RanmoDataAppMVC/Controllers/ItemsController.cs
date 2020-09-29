@@ -71,7 +71,7 @@ namespace RanmoDataAppMVC.Controllers
 
         // POST: Items/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // .
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,ItemFor,ItemName,FullShotWeight,WithoutRunnerWeight,CycleTime,PerHourTarget,IsActive")] Item item)
@@ -109,7 +109,7 @@ namespace RanmoDataAppMVC.Controllers
 
         // POST: Items/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // .
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "Id,ItemFor,ItemName,FullShotWeight,WithoutRunnerWeight,CycleTime,PerHourTarget,IsActive")] Item item)

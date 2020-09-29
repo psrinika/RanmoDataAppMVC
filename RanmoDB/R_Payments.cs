@@ -23,10 +23,10 @@ namespace RanmoDB
         public Nullable<System.DateTime> ChequeDate { get; set; }
         public string ChequeNum { get; set; }
         public Nullable<int> PaymentStatusId { get; set; }
-        public Nullable<decimal> AmountRemaining { get; set; }
         public string Notes { get; set; }
-        public Nullable<System.DateTime> TimeStamp { get; set; }
+        public System.DateTime TimeStamp { get; set; }
         public string ReceiptNo { get; set; }
         public int CustomerId { get; set; }
+        public Nullable<decimal> AmountPaid { get; set; }
     }
 }

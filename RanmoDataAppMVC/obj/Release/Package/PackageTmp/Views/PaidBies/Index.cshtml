@@ -1,0 +1,55 @@
+﻿@model IEnumerable<RanmoDataAppMVC.ViewModels.PaidBy>
+
+@{
+    ViewBag.Title = "Paid By";
+}
+
+<table width="100%" class="table-condensed">
+    <tr>
+        <td width="280px">
+            <h1>Paid By</h1>
+        </td>
+        <td align="right"><a href="@Url.Action("Create","PaidBies")" class="btn btn-success"><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Create New</a></td>
+    </tr>
+</table>
+
+<table class="table table-sm table-bordered table-hover table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Paid_By)
+            </th>
+            <th width="200px">Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Paid_By)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit","PaidBies", new { id = item.Id })" class="btn btn-default"><i class="fa fa-pencil "></i> Edit</a>
+                    <a onclick="Delete(@item.Id)" class="btn btn-default"><i class="fa fa-trash "></i> Delete</a>
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@section scripts {
+
+    <script>
+        function Delete(id) {
+            var confirmed = confirm("Are you sure!");
+            if (confirmed) {
+                window.location.href = '@Url.Action("Delete", "PaidBies")/' + id;
+            }
+        }
+    </script>
+}

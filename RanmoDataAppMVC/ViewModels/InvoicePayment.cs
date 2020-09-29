@@ -60,7 +60,7 @@ namespace RanmoDataAppMVC.ViewModels
             paymentEF.RemainingInvoiceAmount = invoicePayment.RemainingInvoiceAmount - invoicePayment.InvoicePaymentAmount;
             paymentEF.PaymentFullyUsed = (RemainingPaymentAmount == 0);
             paymentEF.InvoiceFullyPaid = (RemainingInvoiceAmount == 0);
-
+            paymentEF.TimeStamp = DateTime.Now;
             return paymentEF;
         }
 
@@ -110,4 +110,12 @@ namespace RanmoDataAppMVC.ViewModels
             return invoicePaymentEF;
         }
     }
+
+    public class InvoicePaymentList
+    {
+        public List<InvoicePayment> IPLst { get; set; }
+    }
+
+
+
 }

@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
 using PagedList;
@@ -18,128 +21,85 @@ namespace RanmoDataAppMVC.Controllers
         private ApplicationDbContext dbMV = new ApplicationDbContext();
         private RanSanDBEntities dbEF = new RanSanDBEntities();
 
-        public ActionResult Index0()
+        public ActionResult Index(int? noOfRecs, string invoiceNumberContains, int? customerId, string CustomerName, string notesContains,
+                int? fullyPaid, decimal? amountFrom, decimal? amountTo, DateTime? invFromDate, DateTime? invToDate, string sortOrder, int? page, string CurrentFilter)
         {
-            var dbData = dbEF.R_Invoice.Select(q => new Invoice
-            {
-                Id = q.Id,
-                InvoiceNumber = q.InvoiceNumber,
-                CustomerId = q.CustomerId,
-                CustomerName = dbEF.R_Customer.Where(c => c.Id == q.CustomerId).Select(n => n.CustomerName).FirstOrDefault(),
-                Amount = q.Amount,
-                InvoiceDate = q.InvoiceDate,
-                FullyPaid = q.FullyPaid,
-                AmountPaid = q.AmountPaid,
-                Notes = q.Notes
-            }).OrderBy(q => q.InvoiceNumber).Take(10);
 
+            ViewBag.CurrentFilter = CurrentFilter;
+            ViewBag.sortOrder = sortOrder;
 
-            return View(dbData);
-        }
-
-
-        public ActionResult Index(string sortOrder, int? page, int? noOfRecs)
-        {
             ViewBag.InvoiceNumberSortParm = String.IsNullOrEmpty(sortOrder) ? "InvoiceNumber_desc" : "";
+            ViewBag.CustomerNameSortParm = sortOrder == "CustomerName" ? "CustomerName_desc" : "CustomerName";
+
             ViewBag.InvoiceDateSortParm = sortOrder == "InvoiceDate" ? "InvoiceDate_desc" : "InvoiceDate";
+
             int numberOfRecs = (noOfRecs == null || noOfRecs == 0 || noOfRecs > 1000) ? 10 : (int)noOfRecs;
-            var xx = ViewBag.NumberOfRecords;
-
-            var dbData = dbEF.R_Invoice.Where(q => q.FullyPaid == false).Select(q => new Invoice
-            {
-                Id = q.Id,
-                InvoiceNumber = q.InvoiceNumber,
-                CustomerId = q.CustomerId,
-                CustomerName = dbEF.R_Customer.Where(c => c.Id == q.CustomerId).Select(n => n.CustomerName).FirstOrDefault(),
-                Amount = q.Amount,
-                InvoiceDate = q.InvoiceDate,
-                FullyPaid = q.FullyPaid,
-                AmountPaid = q.AmountPaid,
-                Notes = q.Notes
-            });
-
-            var sortedData = dbData.OrderBy(q => q.InvoiceNumber);
-            switch (sortOrder)
-            {
-                case "InvoiceNumber_desc":
-                    sortedData = dbData.OrderByDescending(q => q.InvoiceNumber);
-                    break;
-                case "InvoiceDate":
-                    sortedData = dbData.OrderBy(q => q.InvoiceDate);
-                    break;
-                case "InvoiceDate_desc":
-                    sortedData = dbData.OrderByDescending(q => q.InvoiceDate);
-                    break;
-                default:
-                    break;
-            }
-            //            var limiteddData = sortedData.Take(10);
-
-            //https://docs.microsoft.com/en-us/aspnet/mvc/overview/getting-started/getting-started-with-ef-using-mvc/sorting-filtering-and-paging-with-the-entity-framework-in-an-asp-net-mvc-application
-            int pageSize = numberOfRecs;
-            int pageNumber = (page ?? 1);
-            return View(sortedData.ToPagedList(pageNumber, pageSize));
-            //return View(limiteddData);
-        }
-
-
-        // https://stackoverflow.com/questions/7265186/how-do-i-specify-the-linq-orderby-argument-dynamically
-        //            }).OrderBy(s => Int32.Parse(Regex.Replace(s.InvoiceNumber, @"[^\d]", ""))).Take(10);
-        //   }).OrderBy(q => q.InvoiceNumber).Take(10);
-
-        [HttpPost]
-        public ActionResult Index(int? noOfRecs, string invoiceNumberContains, int? customerId, string notesContains,
-                int? fullyPaid, decimal? amountFrom, decimal? amountTo, DateTime invFromDate, DateTime invToDate, string sortOrder, int? page)
-        {
-            int numberOfRecs = (noOfRecs == null || noOfRecs == 0 || noOfRecs > 1000) ? 10 : (int)noOfRecs;
+            CustomerName = (CustomerName == "" || CustomerName == null) ? null : CustomerName.ToLower();
+            customerId = (CustomerName == null || CustomerName == "") ? null : customerId;
             int custId = (customerId == null) ? 0 : (int)customerId;
             decimal amtFrom = (amountFrom == null) ? 0 : (decimal)amountFrom;
             decimal amtTo = (amountTo == null) ? 10000000 : (decimal)amountTo;
-            int fullyPd = (fullyPaid == null) ? -1 : (int)fullyPaid;
+            int fullyPd = (fullyPaid == null) ? 0 : (int)fullyPaid;
             bool fp = (fullyPd == 1);
             DateTime invFromDt = (invFromDate == null) ? DateTime.Today.AddDays(-365) : (DateTime)invFromDate;
             DateTime invToDt = (invToDate == null) ? DateTime.Today.AddDays(100) : (DateTime)invToDate;
 
             var dbData = dbEF.R_Invoice
-                        .Where(q => (q.InvoiceNumber.ToLower().Contains(invoiceNumberContains.ToLower()) || invoiceNumberContains == null || invoiceNumberContains.Trim() == string.Empty)
-                        && (customerId == null || q.CustomerId == custId)
-                        && (q.Notes.Contains(notesContains) || notesContains == null || notesContains.Trim() == string.Empty)
-                        && (q.Amount >= amtFrom && q.Amount <= amtTo)
-                        && (fullyPd == -1 || q.FullyPaid == fp)
-                        && (q.InvoiceDate >= invFromDt && q.InvoiceDate <= invToDt));
+                        .Where(i => (i.InvoiceNumber.ToLower().Contains(invoiceNumberContains.ToLower()) || invoiceNumberContains == null || invoiceNumberContains.Trim() == string.Empty)
+                        && (customerId == null || i.CustomerId == custId)
+                        && (string.IsNullOrEmpty(notesContains) || i.Notes.Contains(notesContains))
+                        && (i.Amount >= amtFrom && i.Amount <= amtTo)
+                        && (fullyPd == -1 || i.FullyPaid == fp)
+                        && (i.InvoiceDate >= invFromDt && i.InvoiceDate <= invToDt))
+                      .Join(dbEF.R_Customer, i => i.CustomerId, c => c.Id, (i, c) => new { I = i, c.CustomerName })
+                      .Where(c => (string.IsNullOrEmpty(CustomerName) || c.CustomerName.Contains(CustomerName)));
 
-
-
-            var sortedData = dbData.OrderBy(q => q.InvoiceNumber);
+            //var sortedData = dbData.OrderBy(q => q.I.InvoiceNumber, new NaturalStringComparer());
+            var sortedData = dbData.OrderBy(q => SqlFunctions.Replicate("0", 20 - q.I.InvoiceNumber.Length) + q.I.InvoiceNumber);
+         //   var x = sortedData.ToList();
             switch (sortOrder)
             {
                 case "InvoiceNumber_desc":
-                    sortedData = dbData.OrderByDescending(q => q.InvoiceNumber);
+                    sortedData = dbData.OrderByDescending(q => SqlFunctions.Replicate("0", 20 - q.I.InvoiceNumber.Length) + q.I.InvoiceNumber);
                     break;
                 case "InvoiceDate":
-                    sortedData = dbData.OrderBy(q => q.InvoiceDate);
+                    sortedData = dbData.OrderBy(q => q.I.InvoiceDate);
                     break;
                 case "InvoiceDate_desc":
-                    sortedData = dbData.OrderByDescending(q => q.InvoiceDate);
+                    sortedData = dbData.OrderByDescending(q => q.I.InvoiceDate);
+                    break;
+                case "CustomerName":
+                    sortedData = dbData.OrderBy(q => q.CustomerName);
+                    break;
+                case "CustomerName_desc":
+                    sortedData = dbData.OrderByDescending(q => q.CustomerName);
                     break;
                 default:
                     break;
             }
 
-            // var dataLimit = sortedData;
             ViewBag.NumberOfRecords = numberOfRecs;
+            ViewBag.invoiceNumberContains = invoiceNumberContains;
+            ViewBag.fullyPaid = fullyPaid;
+            ViewBag.amountFrom = amountFrom;
+            ViewBag.invFromDate = invFromDate;
+            ViewBag.notesContains = notesContains;
+            ViewBag.CustomerId = customerId;
+            ViewBag.amountTo = amountTo;
+            ViewBag.invToDate = invToDate;
+
             var data = sortedData
                 .Select(q => new Invoice
                 {
-                    Id = q.Id,
-                    InvoiceNumber = q.InvoiceNumber,
-                    CustomerId = q.CustomerId,
-                    CustomerName = dbEF.R_Customer.Where(c => c.Id == q.CustomerId).Select(n => n.CustomerName).FirstOrDefault(),
-                    Amount = q.Amount,
-                    InvoiceDate = q.InvoiceDate,
-                    FullyPaid = q.FullyPaid,
-                    AmountPaid = q.AmountPaid,
-                    Notes = q.Notes
+                    Id = q.I.Id,
+                    InvoiceNumber = q.I.InvoiceNumber,
+                    CustomerId = q.I.CustomerId,
+                    CustomerName = q.CustomerName,
+                    Amount = q.I.Amount,
+                    InvoiceDate = q.I.InvoiceDate,
+                    FullyPaid = q.I.FullyPaid,
+                    AmountPaid = q.I.AmountPaid,
+                    Notes = q.I.Notes
                 });
 
             int pageSize = numberOfRecs;
@@ -179,7 +139,7 @@ namespace RanmoDataAppMVC.Controllers
             var i = invoice.ConvertVwModelToDB(invoice);
             var customerId = invoice.CustomerId;
             var invoiceAmount = invoice.Amount;
-            var paymentAmount = invoice.AmountPaid;
+ //           var paymentAmount = invoice.AmountPaid;
 
             ValidateModel(invoice);
 
@@ -188,7 +148,8 @@ namespace RanmoDataAppMVC.Controllers
                 try
                 {
                     dbEF.R_Invoice.Add(i);
-                    var customer = GetCustomerBalance(customerId, 0, invoiceAmount, 0, paymentAmount);
+ //                   var customer = GetCustomerBalance(customerId, 0, invoiceAmount, 0, paymentAmount);
+                    var customer = GetCustomerBalance(customerId, 0, invoiceAmount);
                     dbEF.Entry(customer).State = EntityState.Modified;
 
                     dbEF.SaveChanges();
@@ -238,8 +199,8 @@ namespace RanmoDataAppMVC.Controllers
 
             var invoiceAmountOld = GetOldInvoiceAmount(invoice.Id);
             var invoiceAmountNew = invoice.Amount;
-            var paymentAmountOld = GetOldPaymentAmount(invoice.Id);
-            var paymentAmountNew = invoice.AmountPaid;
+//            var paymentAmountOld = GetOldPaymentAmount(invoice.Id);
+//            var paymentAmountNew = invoice.AmountPaid;
 
             ValidateModel(invoice);
 
@@ -248,7 +209,8 @@ namespace RanmoDataAppMVC.Controllers
                 try
                 {
                     dbEF.Entry(invoiceDB).State = EntityState.Modified;
-                    var customer = GetCustomerBalance(invoice.CustomerId, invoiceAmountOld, invoiceAmountNew, paymentAmountOld, paymentAmountNew);
+                    //var customer = GetCustomerBalance(invoice.CustomerId, invoiceAmountOld, invoiceAmountNew, paymentAmountOld, paymentAmountNew);
+                    var customer = GetCustomerBalance(invoice.CustomerId, invoiceAmountOld, invoiceAmountNew);
                     dbEF.Entry(customer).State = EntityState.Modified;
                     dbEF.SaveChanges();
                     return RedirectToAction("Index");
@@ -265,7 +227,6 @@ namespace RanmoDataAppMVC.Controllers
 
             return View(invoice);
         }
-
 
         private void ValidateModel(Invoice invoice)
         {
@@ -309,8 +270,9 @@ namespace RanmoDataAppMVC.Controllers
             var invoice = dbEF.R_Invoice.Find(id);
 
             var invoiceAmountOld = GetOldInvoiceAmount(id);
-            var paymentAmountOld = GetOldPaymentAmount(id);
-            var customer = GetCustomerBalance(invoice.CustomerId, invoiceAmountOld, 0, paymentAmountOld, 0);
+            //           var paymentAmountOld = GetOldPaymentAmount(id);
+            //var customer = GetCustomerBalance(invoice.CustomerId, invoiceAmountOld, 0, paymentAmountOld, 0);
+            var customer = GetCustomerBalance(invoice.CustomerId, invoiceAmountOld, 0);
 
             dbEF.R_Invoice.Remove(invoice);
             dbEF.Entry(customer).State = EntityState.Modified;
@@ -318,40 +280,28 @@ namespace RanmoDataAppMVC.Controllers
             return RedirectToAction("Index");
         }
 
-
-        //private decimal? GetNewInvoiceAmount(R_Invoice invoice)
-        //{
-        //    return invoice.Amount;
-        //}
-
         private decimal? GetOldInvoiceAmount(int invoiceId)
         {
             var invoiceAmount = dbEF.R_Invoice.Where(q => q.Id == invoiceId).Select(q => q.Amount).FirstOrDefault();
             return invoiceAmount;
         }
 
-        private decimal? GetNewPaymentAmount(R_Payments payment)
-        {
-            return payment.Amount;
-        }
+        //public  string PadNumbers(string input)
+        //{
+        //    return Regex.Replace(input, "[0-9]+", match => match.Value.PadLeft(10, '0'));
+        //}
 
-        private decimal? GetOldPaymentAmount(int invoiceId)
-        {
-            var PaymentAmount = dbEF.R_Invoice.Where(q => q.Id == invoiceId).Select(q => q.AmountPaid).FirstOrDefault();
-            return PaymentAmount;
-        }
-
-        public R_Customer GetCustomerBalance(int? customerId, decimal? oldInvoiceAmount, decimal? newInvoiceAmount, decimal? oldPaymentAmount, decimal? newPaymentAmount)
+        public R_Customer GetCustomerBalance(int? customerId, decimal? oldInvoiceAmount, decimal? newInvoiceAmount)
         {
             var customer = dbEF.R_Customer.Where(q => q.Id == customerId).FirstOrDefault();
             var cusBal = (customer.Balance == null) ? 0 : (decimal)customer.Balance;
 
             decimal oldInvoiceAmount_i = (oldInvoiceAmount == null) ? 0 : (decimal)oldInvoiceAmount;
             decimal newInvoiceAmount_i = (newInvoiceAmount == null) ? 0 : (decimal)newInvoiceAmount;
-            decimal oldPaymentAmount_i = (oldPaymentAmount == null) ? 0 : (decimal)oldPaymentAmount;
-            decimal newPaymentAmount_i = (newPaymentAmount == null) ? 0 : (decimal)newPaymentAmount;
+            //decimal oldPaymentAmount_i = (oldPaymentAmount == null) ? 0 : (decimal)oldPaymentAmount;
+            //decimal newPaymentAmount_i = (newPaymentAmount == null) ? 0 : (decimal)newPaymentAmount;
 
-            var newBalance = cusBal + (newInvoiceAmount_i - oldInvoiceAmount_i) - (newPaymentAmount_i - oldPaymentAmount_i);
+            var newBalance = cusBal + (newInvoiceAmount_i - oldInvoiceAmount_i);// - (newPaymentAmount_i - oldPaymentAmount_i);
             customer.Balance = newBalance;
             return customer;
         }
@@ -364,5 +314,25 @@ namespace RanmoDataAppMVC.Controllers
             }
             base.Dispose(disposing);
         }
+
+
+    }
+
+    public static class SafeNativeMethods
+    {
+        [DllImport("shlwapi.dll", CharSet = CharSet.Unicode)]
+        public static extern int StrCmpLogicalW(string psz1, string psz2);
+    }
+
+    public sealed class NaturalStringComparer : IComparer<string>
+    {
+        #region IComparer<string> Members
+
+        public int Compare(string x, string y)
+        {
+            return SafeNativeMethods.StrCmpLogicalW(x, y);
+        }
+
+        #endregion
     }
 }

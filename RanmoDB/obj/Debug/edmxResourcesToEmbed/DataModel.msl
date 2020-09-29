@@ -110,6 +110,8 @@
     <EntitySetMapping Name="R_Customer">
       <EntityTypeMapping TypeName="RanSanDBModel.R_Customer">
         <MappingFragment StoreEntitySet="R_Customer">
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="Active" ColumnName="Active" />
           <ScalarProperty Name="Balance" ColumnName="Balance" />
           <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
           <ScalarProperty Name="Email" ColumnName="Email" />
@@ -169,11 +171,11 @@
     <EntitySetMapping Name="R_Payments">
       <EntityTypeMapping TypeName="RanSanDBModel.R_Payments">
         <MappingFragment StoreEntitySet="R_Payments">
+          <ScalarProperty Name="AmountPaid" ColumnName="AmountPaid" />
           <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
           <ScalarProperty Name="ReceiptNo" ColumnName="ReceiptNo" />
           <ScalarProperty Name="TimeStamp" ColumnName="TimeStamp" />
           <ScalarProperty Name="Notes" ColumnName="Notes" />
-          <ScalarProperty Name="AmountRemaining" ColumnName="AmountRemaining" />
           <ScalarProperty Name="PaymentStatusId" ColumnName="PaymentStatusId" />
           <ScalarProperty Name="ChequeNum" ColumnName="ChequeNum" />
           <ScalarProperty Name="ChequeDate" ColumnName="ChequeDate" />

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<RanmoDataAppMVC.Models.ProductionReject>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+
+    @Html.ActionLink("Create New", "Create", new { productionId = ViewBag.ProductionId })
+
+</p>
+<table class="table">
+    <tr>
+        <th style="display:none">
+            @Html.DisplayNameFor(model => model.ProductionId)
+        </th>
+        <th style="display:none">
+            @Html.DisplayNameFor(model => model.RejectReasonId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RejectReasonName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfRejects)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td style="display:none">
+            @Html.DisplayFor(modelItem => item.ProductionId)
+        </td>
+        <td style="display:none">
+            @Html.DisplayFor(modelItem => item.RejectReasonId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.RejectReasonName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberOfRejects)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+    }
+
+</table>
+
+<div>
+    <a href="@Url.Action("Edit/" + ViewBag.ProductionId,"Production")" class="btn btn-info"><i class="fa"></i><< Back to Prouction Data Edit</a>
+</div>

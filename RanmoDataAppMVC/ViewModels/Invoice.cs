@@ -14,16 +14,8 @@ namespace RanmoDataAppMVC.ViewModels
     {
         public int Id { get; set; }
 
-        //[MaxLength(127)]
-        //[Index(IsUnique = true)] (string invoiceNumber)
-        //[Key]
-        //[Remote("IsInvoiceNumberExist", "Invoices", ErrorMessage = "Invoice Number already exist.")]
-        //[Index("IX_R_Invoice", IsUnique = true)]
+
         [Required]
-        //[Index(IsUnique = true)]
-        // 
-        //https://www.c-sharpcorner.com/blogs/remote-validation-in-mvc-5-using-remote-attribute
-        // none of the above didn't work
         public string InvoiceNumber { get; set; }
 
         public Nullable<int> CustomerId { get; set; }
@@ -60,6 +52,7 @@ namespace RanmoDataAppMVC.ViewModels
             i.FullyPaid = invoice.FullyPaid;
             i.AmountPaid = invoice.AmountPaid;
             i.Notes = invoice.Notes;
+            i.TimeStamp = DateTime.Now;
             return i;
         }
 

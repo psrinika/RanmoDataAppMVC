@@ -124,8 +124,10 @@
     <Property Name="Address" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="Tel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" Nullable="false" />
     <Property Name="Balance" Type="Decimal" Precision="10" Scale="2" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="R_Invoice">
     <Key>
@@ -138,7 +140,7 @@
     <Property Name="InvoiceDate" Type="DateTime" Precision="3" />
     <Property Name="FullyPaid" Type="Boolean" Nullable="false" />
     <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" Nullable="false" />
     <Property Name="AmountPaid" Type="Decimal" Precision="10" Scale="2" />
   </EntityType>
   <EntityType Name="R_PaidBy">
@@ -182,10 +184,10 @@
     <Property Name="ChequeDate" Type="DateTime" Precision="3" />
     <Property Name="ChequeNum" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="PaymentStatusId" Type="Int32" />
-    <Property Name="AmountRemaining" Type="Decimal" Precision="10" Scale="2" />
     <Property Name="Notes" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-    <Property Name="TimeStamp" Type="DateTime" Precision="3" />
+    <Property Name="TimeStamp" Type="DateTime" Precision="3" Nullable="false" />
     <Property Name="ReceiptNo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
     <Property Name="CustomerId" Type="Int32" Nullable="false" />
+    <Property Name="AmountPaid" Type="Decimal" Precision="10" Scale="2" />
   </EntityType>
 </Schema>

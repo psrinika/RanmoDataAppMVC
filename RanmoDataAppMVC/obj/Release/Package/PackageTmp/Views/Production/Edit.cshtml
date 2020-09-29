@@ -1,0 +1,362 @@
+﻿@model RanmoDataAppMVC.Models.Production
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h3>Edit existing Production Data</h3>
+<br />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.Label("Work Start Date", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.WorkStartDate, new { htmlAttributes = new { @class = "form-control oso", @type = "date" } })
+                @Html.ValidationMessageFor(model => model.WorkStartDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Shift", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.ShiftDN, new List<SelectListItem>
+{
+new SelectListItem{ Text="Day", Value = "Day" },
+new SelectListItem{ Text="Night", Value = "Night" }
+}, new { @class = "form-control  col-md-2" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Machine", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.MachineId, (SelectList)ViewBag.MachineNames, new { @class = "form-control col-md-2" })
+                @Html.HiddenFor(m => m.MachineId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Item (Type part of name)", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.ItemName, new { @class = "form-control" })
+                @*@Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })*@
+                @Html.HiddenFor(m => m.ItemId)
+            </div>
+            <div class="col-md-4">
+
+
+                <div class="card-header" id="headingOne">
+                    <button class="btn btn-link  collapsed" type="button" data-toggle="collapse" data-target="#collapseOne"
+                            aria-expanded="false" aria-controls="collapseOne">
+                        Filter Items List by <font color="red">Items For</font> and <font color="red">Active Status</font>
+                    </button>
+                    <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+
+                        @Html.DropDownList("ItemFor", (SelectList)ViewBag.ItemForList, "Any", new { @class = "form-control col-md-4" })
+                        @Html.DropDownList("activeStatus", new List<SelectListItem>
+                                                                                                                                                                    {
+                                                                                                                                                                    new SelectListItem{ Text="Any", Value = "-1", Selected = true },
+                                                                                                                                                                    new SelectListItem{ Text="Active", Value = "1" },
+                                                                                                                                                                    new SelectListItem{ Text="Not-Active", Value = "0" }
+                                                                                                                                                                    }, new { @class = "form-control col-md-4" })
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.Label("Employee", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.EmployeeName, new { @class = "form-control" })
+                @Html.HiddenFor(m => m.EmployeeId)
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.Label("From", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.FromTime, (SelectList)ViewBag.FromToTimeList, new { @class = "form-control col-md-6" })
+
+                @Html.ValidationMessageFor(model => model.FromTime, "", new { @class = "text-danger" })
+            </div>
+            @Html.Label("Counter", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.MachineCounterFrom, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MachineCounterFrom, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("To", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.ToTime, (SelectList)ViewBag.FromToTimeList, new { @class = "form-control col-md-6" })
+
+                @Html.ValidationMessageFor(model => model.ToTime, "", new { @class = "text-danger" })
+            </div>
+            @Html.Label("Counter", htmlAttributes: new { @class = "control-label col-md-1" })
+            <div class="col-md-1">
+                @Html.EditorFor(model => model.MachineCounterTo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MachineCounterTo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Notes, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-2">
+                @Html.EditorFor(model => model.Notes, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Notes, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group" style="display:none">
+            <div class="col-md-offset-2 col-md-2">
+                <input type="submit" value="Save" class="btn btn-info" />
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+            @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                <div class="card-header" id="headingTwo">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo"
+                            aria-expanded="false" aria-controls="collapseTwo">
+                        <font color="red">Rejected Items</font>
+                    </button>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="col-md-8">
+                            <form id="NewRejectedReasonForm">
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <input type="hidden" id="OrderId" />
+
+                                        <table cellpadding="5" cellspacing="5">
+                                            <tr>
+                                                <td width="10%">
+                                                    Reason
+                                                </td>
+                                                <td width="45%">
+                                                    @Html.DropDownList("rejectedReason", (SelectList)ViewBag.RejectReasonList, new { style = "width: 150px;" })
+                                                </td>
+                                                <td width="20%">
+                                                    Quantity
+                                                </td>
+                                                <td width="25%">
+                                                    <input type="number" id="quantity" name="quantity" placeholder="No of rejected items" class="form-control" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <a id="addToRjRsnList" class="btn btn-success" data-toggle="modal"><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Add To List</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table id="detailsTableRej" class="table table-sm table-bordered table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:60%">Rejected Reason</th>
+                                                    <th style="width:20%">No of Items</th>
+                                                    <th style="width:20%"></th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in ViewBag.ProductionRejectList)
+                                                {
+                                                    <tr>
+                                                        <td style="display:none;">
+                                                            @item.ProductionId  @*style="display:none;"*@
+                                                        </td>
+                                                        <td style="display:none;">
+                                                            @item.RejectReasonId
+                                                        </td>
+                                                        <td>
+                                                            @item.RejectReasonName
+                                                        </td>
+                                                        <td>
+                                                            @item.NumberOfRejects
+                                                        </td>
+                                                        <td>
+                                                            <a data-itemId="0" href="#" class="deleteItem">Remove</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                @*<div class="modal-footer">
+                                        <button type="reset" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>*@
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="form-group">
+            @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-8">
+                <div class="card-header" id="headingThree">
+                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree"
+                            aria-expanded="false" aria-controls="collapseThree">
+                        <font color="red">Downtime Items</font>
+                    </button>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="col-md-8">
+                            <form id="NewDowntimeReasonForm">
+                                <div class="modal-body">
+                                    <div class="form-horizontal">
+                                        <input type="hidden" id="OrderId" />
+
+                                        <table cellpadding="5" cellspacing="5">
+                                            <tr>
+                                                <td width="10%">
+                                                    Reason
+                                                </td>
+                                                <td width="45%">
+                                                    @Html.DropDownList("downTimeReason", (SelectList)ViewBag.DownTimeReasonList, new { style = "width: 150px;" })
+                                                </td>
+                                                <td width="20%">
+                                                    Quantity
+                                                </td>
+                                                <td width="25%">
+                                                    <input type="number" id="dtMinutes" name="dtMinutes" placeholder="No of downtime items" class="form-control" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <a id="addToDtRsnList" class="btn btn-success" data-toggle="modal"><i style="vertical-align: -7px;" class="material-icons">&#xE147;</i> Add To List</a>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <table id="detailsTableDT" class="table table-sm table-bordered table-condensed">
+                                            <thead>
+                                                <tr>
+                                                    <th style="width:60%">Downtime Reason</th>
+                                                    <th style="width:20%">Minutes</th>
+                                                    <th style="width:20%"></th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in ViewBag.ProductionDowntimeList)
+                                                {
+                                                    <tr>
+                                                        <td style="display:none;">
+                                                            @item.ProductionId  @*style="display:none;"*@
+                                                        </td>
+                                                        <td style="display:none;">
+                                                            @item.DowntimeReasonId
+                                                        </td>
+                                                        <td>
+                                                            @item.DowntimeReasonName
+                                                        </td>
+                                                        <td>
+                                                            @item.DownTimeMinutes
+                                                        </td>
+                                                        <td>
+                                                            <a data-itemId="0" href="#" class="deleteItem">Remove</a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="form-group">
+            <div class="col-md-2">
+                <button id="saveAll" type="submit" class="btn btn-danger">Save All</button>
+            </div>
+
+        </div>
+
+
+        @*<h3>Save the above data if Rejected Items or Down Time Minutes to be maintained</h3>
+            <hr />
+            <h3>If any change is made and not saved, it won't retain once returned</h3>*@
+
+        @*
+
+            <h3>Rejected Items හෝ Down Time Minutes පිළිබඳව යමක් කිරීමට ප්‍රථම Save කරන්න</h3>
+            <hr />
+            <h3>කිසියම් දෙයක් වෙනස්කොට එය Save  නොකලහොත් නැවත පැමිනිවිට වෙනස්කම් නැතිවෙනු ඇත</h3>
+            <hr /><br /><br />
+
+                <div class="form-group">
+                    @Html.Label(" ", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-2">
+                        <a href="@Url.Action("Index","ProductionRejects", new {productionId= @Model.Id })" class="btn btn-danger"><i class="fa fa-pencil "></i> Rejected</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="@Url.Action("Index","ProductionDownTime", new {productionId= @Model.Id })" class="btn btn-danger"><i class="fa fa-pencil "></i> Down Time</a>
+                    </div>
+                </div>
+
+                    removed and placed in Experiments/RemovedFromProdEdit
+        *@
+
+
+    </div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+
+@section scripts{
+
+    <script src="~/Scripts/Production/AutoComplete.js"></script>
+    <script src="~/Scripts/Production/DetailPanels.js"></script>
+    <script src="~/Scripts/Production/SaveAll.js"></script>
+
+
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @*<link rel="stylesheet" href="/resources/demos/style.css">*@
+    @*<style>
+            .ui-autocomplete-loading {
+                background: white url("images/ui-anim_basic_16x16.gif") right center no-repeat;
+            }
+        </style>*@
+
+
+    <script>
+
+        ////Show Modal.
+        //function addNewRejectedReason() {
+        //    $("#newRejReasonsModal").modal();
+        //}
+
+
+    </script>
+
+}

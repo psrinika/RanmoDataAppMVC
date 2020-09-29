@@ -42,4 +42,10 @@ namespace RanmoDataAppMVC.ViewModels
         }
 
     }
+
+    public class PaymentStatusList
+    {
+        public List<PaymentStatus> psLst { get; set; }
+    }
+
 }

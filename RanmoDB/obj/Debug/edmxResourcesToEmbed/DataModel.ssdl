@@ -93,7 +93,9 @@
     <Property Name="Tel" Type="varchar" MaxLength="100" />
     <Property Name="Email" Type="varchar" MaxLength="100" />
     <Property Name="Balance" Type="decimal" Precision="10" Scale="2" />
-    <Property Name="TimeStamp" Type="datetime" />
+    <Property Name="Active" Type="bit" Nullable="false" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="R_Invoice">
     <Key>
@@ -107,7 +109,7 @@
     <Property Name="AmountPaid" Type="decimal" Precision="10" Scale="2" />
     <Property Name="FullyPaid" Type="bit" Nullable="false" />
     <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
-    <Property Name="TimeStamp" Type="datetime" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="R_InvoicePayment">
     <Key>
@@ -145,9 +147,9 @@
     <Property Name="ChequeDate" Type="datetime" />
     <Property Name="ChequeNum" Type="varchar" MaxLength="100" />
     <Property Name="PaymentStatusId" Type="int" />
-    <Property Name="AmountRemaining" Type="decimal" Precision="10" Scale="2" />
+    <Property Name="AmountPaid" Type="decimal" Precision="10" Scale="2" />
     <Property Name="Notes" Type="nvarchar" MaxLength="1000" />
-    <Property Name="TimeStamp" Type="datetime" />
+    <Property Name="TimeStamp" Type="datetime" Nullable="false" />
   </EntityType>
   <EntityType Name="R_PaymentStatus">
     <Key>

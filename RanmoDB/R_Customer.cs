@@ -20,7 +20,9 @@ namespace RanmoDB
         public string Address { get; set; }
         public string Tel { get; set; }
         public string Email { get; set; }
-        public Nullable<System.DateTime> TimeStamp { get; set; }
+        public System.DateTime TimeStamp { get; set; }
         public Nullable<decimal> Balance { get; set; }
+        public bool Active { get; set; }
+        public string Notes { get; set; }
     }
 }

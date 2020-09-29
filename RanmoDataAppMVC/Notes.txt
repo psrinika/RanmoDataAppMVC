@@ -1,0 +1,25 @@
+﻿NeededURLs
+
+Passing an anonymous object as an argument in C#
+https://stackoverflow.com/questions/10822092/passing-an-anonymous-object-as-an-argument-in-c-sharp
+
+Wildcard search for LINQ
+https://stackoverflow.com/questions/1040380/wildcard-search-for-linq
+
+https://stackoverflow.com/questions/7265186/how-do-i-specify-the-linq-orderby-argument-dynamically
+
+https://www.google.com/search?rlz=1C1NHXL_enCA736CA736&sxsrf=ALeKk02KED6s3y1-yQbEGzw9JnhsDh-RAw%3A1595723481117&ei=2c4cX5PGBs_j_AbE7pyoAg&q=mvc+autocomplete+ajax+query+based+on+selection&oq=mvc+autocomplete+ajax+query+based+on+selection&gs_lcp=CgZwc3ktYWIQAzoECAAQRzoCCAA6BggAEBYQHjoFCCEQoAE6CAgAEAgQDRAeOgcIIRAKEKABOgQIIRAVUKmdlgRYl_iYBGCh-pgEaApwAXgAgAGqAogB5SSSAQcxNC4yMi4zmAEAoAECoAEBqgEHZ3dzLXdpesABAQ&sclient=psy-ab&ved=0ahUKEwjTloGa1enqAhXPMd8KHUQ3ByUQ4dUDCAw&uact=5
+https://stackoverflow.com/questions/35753808/how-to-make-another-ajax-call-upon-selection-of-autocomplete-text-field-value-in
+
+https://stackoverflow.com/questions/376644/setting-ajax-url-for-jquery-in-js-file-using-asp-net-mvc
+
+https://stackoverflow.com/questions/5212751/how-can-i-get-id-of-inserted-entity-in-entity-framework
+
+https://stackoverflow.com/questions/30078978/mvc-5-edit-bootstrap-modal-popup
+
+https://abctutorial.com/post/35/mvc-5-master-details-using-jquery-ajax
+
+https://www.tutorialrepublic.com/codelab.php?topic=bootstrap&file=crud-data-table-for-database-with-modal-form
+https://abctutorial.com/post/35/mvc-5-master-details-using-jquery-ajax
+
+        //https://www.c-sharpcorner.com/blogs/remote-validation-in-mvc-5-using-remote-attribute
